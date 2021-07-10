@@ -49,6 +49,12 @@ module BarBack
 
       assert_equal "User.count", page.find("textarea").value
       assert_text "2"
+
+      fill_in "query", with: "bad query"
+      click_button "run"
+
+      assert_equal "bad query", page.find("textarea").value
+      assert_text /invalid query/i
     end
   end
 end

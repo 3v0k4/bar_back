@@ -18,6 +18,14 @@ module BarBack
       assert_equal true, actual.present?
     end
 
+    test "with an invalid query it returns an error" do
+      query = Query.new(string: "bad query")
+
+      actual = EvaluateQuery.new.call(query)
+
+      assert_equal true, actual.invalid?
+    end
+
     test "it evaluates an ActiveRecord query that returns an ActiveRecord::Relation" do
       User.create!
       query = Query.new(string: "User.all")

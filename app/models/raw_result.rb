@@ -3,6 +3,14 @@ RawResult = Struct.new(:result) do
     true
   end
 
+  def valid?
+    true
+  end
+
+  def invalid?
+    !valid?
+  end
+
   def columns
     []
   end

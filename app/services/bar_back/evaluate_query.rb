@@ -3,6 +3,8 @@ module BarBack
     def call(query)
       return EmptyResult.new if query.empty?
       evaluate(query)
+    rescue StandardError => e
+      InvalidQuery.new(e)
     end
 
     private

@@ -6,7 +6,7 @@
   <%= form.submit "run" %>
 <% end %>
 
-<% if @result.present? %>
+<% if @result.present? && @result.valid? %>
   <table>
     <tr>
       <% @result.columns.each do |x| %>
@@ -21,4 +21,8 @@
       </tr>
     <% end %>
   </table>
+<% end %>
+
+<% if @result.present? && @result.invalid? %>
+  invalid query: <%= @result.error_message %>
 <% end %>
