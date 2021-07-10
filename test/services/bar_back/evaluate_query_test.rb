@@ -26,6 +26,15 @@ module BarBack
       assert_equal true, actual.invalid?
     end
 
+    test "with a write query it returns an error" do
+      User.create!
+      query = Query.new(string: "User.destroy_all")
+
+      actual = EvaluateQuery.new.call(query)
+
+      assert_equal true, actual.invalid?
+    end
+
     test "it evaluates an ActiveRecord query that returns an ActiveRecord::Relation" do
       User.create!
       query = Query.new(string: "User.all")

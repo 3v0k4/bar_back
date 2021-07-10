@@ -55,6 +55,12 @@ module BarBack
 
       assert_equal "bad query", page.find("textarea").value
       assert_text /invalid query/i
+
+      fill_in "query", with: "User.destroy_all"
+      click_button "run"
+
+      assert_equal "User.destroy_all", page.find("textarea").value
+      assert_text /can only run read queries/i
     end
   end
 end

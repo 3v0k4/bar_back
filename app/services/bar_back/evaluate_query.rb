@@ -2,7 +2,9 @@ module BarBack
   class EvaluateQuery
     def call(query)
       return EmptyResult.new if query.empty?
-      evaluate(query)
+      ActiveRecord::Base.while_preventing_writes { evaluate(query) }
+    rescue ActiveRecord::ReadOnlyError => e
+      WriteQuery.new(e)
     rescue StandardError => e
       InvalidQuery.new(e)
     end

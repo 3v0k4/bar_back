@@ -1,4 +1,4 @@
-InvalidQuery = Struct.new(:error) do
+WriteQuery = Struct.new(:error) do
   def present?
     true
   end
@@ -12,7 +12,7 @@ InvalidQuery = Struct.new(:error) do
   end
 
   def error_message
-    "invalid query: #{error.message}"
+    "can only run read queries: #{error.message}"
   end
 
   def rows
