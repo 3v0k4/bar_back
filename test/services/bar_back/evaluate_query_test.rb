@@ -45,6 +45,15 @@ module BarBack
       assert_equal expected, actual
     end
 
+    test "it evaluates an ActiveRecord query that returns an empty ActiveRecord::Relation" do
+      query = Query.new(string: "User.all")
+
+      actual = EvaluateQuery.new.call(query)
+
+      expected = EmptyResult.new
+      assert_equal expected, actual
+    end
+
     test "it evaluates an ActiveRecord query and that returns an ActiveRecord::Base" do
       User.create!
       query = Query.new(string: "User.first")

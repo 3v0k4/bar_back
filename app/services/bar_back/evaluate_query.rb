@@ -1,7 +1,7 @@
 module BarBack
   class EvaluateQuery
     def call(query)
-      return EmptyResult.new if query.empty?
+      return NoQuery.new if query.empty?
       ActiveRecord::Base.while_preventing_writes { evaluate(query) }
     rescue ActiveRecord::ReadOnlyError => e
       WriteQuery.new(e)
@@ -16,7 +16,9 @@ module BarBack
     end
 
     def cast(result)
-      if result.is_a?(ActiveRecord::Relation) || result.is_a?(ActiveRecord::Base)
+      if result.is_a?(ActiveRecord::Relation)
+        result.empty? ? EmptyResult.new : ActiveRecordResult.new(result)
+      elsif result.is_a?(ActiveRecord::Base)
         ActiveRecordResult.new(result)
       else
         RawResult.new(result)

@@ -16,7 +16,7 @@ ActiveRecordResult = Struct.new(:result) do
   end
 
   def columns
-    Array(result).first.attribute_names
+    Array(result).first&.attribute_names || []
   end
 
   def rows

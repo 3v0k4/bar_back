@@ -1,6 +1,10 @@
 EmptyResult = Class.new do
+  def ==(other)
+    other.class == EmptyResult
+  end
+
   def present?
-    false
+    true
   end
 
   def valid?
@@ -13,5 +17,13 @@ EmptyResult = Class.new do
 
   def error_message
     ""
+  end
+
+  def columns
+    []
+  end
+
+  def rows
+    [['no results']]
   end
 end

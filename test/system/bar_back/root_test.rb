@@ -62,5 +62,14 @@ module BarBack
       assert_equal "User.destroy_all", page.find("textarea").value
       assert_text /can only run read queries/i
     end
+
+    test "empty result" do
+      visit root_path
+      fill_in "query", with: "User.all"
+
+      click_button "run"
+
+      assert_text "no results"
+    end
   end
 end
