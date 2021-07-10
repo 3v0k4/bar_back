@@ -8,5 +8,12 @@ group :development do
   gem 'sqlite3'
 end
 
+group :test do
+  gem 'capybara'
+  gem 'webdrivers'
+  gem 'rexml'
+  gem 'puma'
+end
+
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
