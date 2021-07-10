@@ -1,18 +1,24 @@
 module BarBack
   class EvaluateQuery
+    BadQuery = Class.new(StandardError)
+
     def call(query)
       return NoQuery.new if query.empty?
-      ActiveRecord::Base.while_preventing_writes { evaluate(query) }
+      cast(evaluate(query))
     rescue ActiveRecord::ReadOnlyError => e
       WriteQuery.new(e)
-    rescue StandardError => e
+    rescue BadQuery => e
       InvalidQuery.new(e)
     end
 
     private
 
     def evaluate(query)
-      cast(eval(query.string))
+      ActiveRecord::Base.while_preventing_writes { eval(query.string) }
+    rescue ActiveRecord::ReadOnlyError => e
+      raise
+    rescue StandardError => e
+      raise BadQuery.new(e)
     end
 
     def cast(result)
