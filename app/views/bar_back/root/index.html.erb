@@ -1,1 +1,24 @@
+<%= form_with url: root_path, method: :get do |form| %>
+  <%= form.label :query %>
+  <br />
+  <%= form.text_area :query, value: @query.string %>
+  <br />
+  <%= form.submit "run" %>
+<% end %>
 
+<% if @result.present? %>
+  <table>
+    <tr>
+      <% @result.columns.each do |x| %>
+        <th><%= x %></th>
+      <% end %>
+    </tr>
+    <% @result.rows.each do |xs| %>
+      <tr>
+        <% xs.each do |y| %>
+          <td><%= y %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
