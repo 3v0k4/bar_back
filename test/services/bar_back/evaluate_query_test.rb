@@ -106,8 +106,8 @@ module BarBack
 
       actual = EvaluateQuery.new.call(query)
 
-      assert_equal User.attribute_names, actual.columns
-      assert_equal [], actual.rows
+      assert_equal [], actual.columns
+      assert_equal [["no results"]], actual.rows
     end
 
     test "it evaluates a SQL query that returns an empty result for a table that does not exist" do

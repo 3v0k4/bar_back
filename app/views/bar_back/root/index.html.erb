@@ -9,14 +9,14 @@
 <% if @result.present? && @result.valid? %>
   <table>
     <tr>
-      <% @result.columns.each do |x| %>
-        <th><%= x %></th>
+      <% @result.columns.each do |column| %>
+        <th><%= column %></th>
       <% end %>
     </tr>
-    <% @result.rows.each do |xs| %>
+    <% @result.rows.each do |row| %>
       <tr>
-        <% xs.each do |y| %>
-          <td><%= y %></td>
+        <% row.each do |value| %>
+          <td><%= value %></td>
         <% end %>
       </tr>
     <% end %>
@@ -26,3 +26,16 @@
 <% if @result.present? && @result.invalid? %>
   <%= @result.error_message %>
 <% end %>
+
+<%= form_with model: @query, method: :post do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+  <%= form.hidden_field :string, value: @query.string %>
+  <%= form.submit "save" %>
+<% end %>
+
+<ul>
+  <% @queries.each do |query| %>
+    <li><%= link_to query.name, query_path(id: query.id) %></li>
+  <% end %>
+</ul>

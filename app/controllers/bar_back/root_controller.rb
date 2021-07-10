@@ -5,6 +5,7 @@ module BarBack
     def index
       @query = Query.new(string: query_string)
       @result = EvaluateQuery.new.call(@query)
+      @queries = Query.all
     end
 
     private

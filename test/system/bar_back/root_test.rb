@@ -9,8 +9,8 @@ module BarBack
     end
 
     test "running queries" do
-      user_1 = User.create!(name: "alfie")
-      user_2 = User.create!(name: "bettie")
+      user_1 = create_user!
+      user_2 = create_user!
 
       visit root_path
 
@@ -69,7 +69,128 @@ module BarBack
 
       click_button "run"
 
-      assert_text "no results"
+      assert_text /no results/i
+    end
+
+    test "saving" do
+      user = create_user!
+      visit root_path
+
+      fill_in "query", with: "User.all"
+      click_button "run"
+
+      fill_in "query_name", with: "user-all"
+      click_button "save"
+
+      click_link "user-all"
+
+      assert_text "user-all"
+      assert_equal "User.all", page.find("textarea").value
+      assert_text "id"
+      assert_xpath ".//input[@value=#{user.id}]"
+      assert_text "name"
+      assert_xpath ".//input[@value='#{user.name}']"
+      assert_text "created_at"
+      assert_xpath ".//input[@value='#{user.created_at}']"
+      assert_text "updated_at"
+      assert_xpath ".//input[@value='#{user.updated_at}']"
+
+      fill_in "query_string", with: "SELECT * FROM users"
+      fill_in "query_name", with: "user-all-sql"
+      click_button "save & run"
+
+      assert_text "user-all-sql"
+      assert_equal "SELECT * FROM users", page.find("textarea").value
+      assert_text "id"
+      assert_xpath ".//input[@value=#{user.id}]"
+      assert_text "name"
+      assert_xpath ".//input[@value='#{user.name}']"
+      assert_text "created_at"
+      assert_xpath ".//input[@value='#{user.created_at.strftime("%F %T.%6N")}']"
+      assert_text "updated_at"
+      assert_xpath ".//input[@value='#{user.updated_at.strftime("%F %T.%6N")}']"
+
+      fill_in "query_string", with: "SELECT name FROM users"
+      fill_in "query_name", with: "user-all-name"
+      click_button "save & run"
+
+      assert_text "user-all-name"
+      assert_equal "SELECT name FROM users", page.find("textarea").value
+      assert_text "name"
+      assert_text user.name
+
+      fill_in "query_string", with: "User.count"
+      fill_in "query_name", with: "user-count"
+      click_button "save & run"
+
+      assert_text "user-count"
+      assert_equal "User.count", page.find("textarea").value
+      assert_text "1"
+
+      fill_in "query_string", with: "SELECT COUNT(*) FROM users"
+      fill_in "query_name", with: "user-count-sql"
+      click_button "save & run"
+
+      assert_text "user-count-sql"
+      assert_equal "SELECT COUNT(*) FROM users", page.find("textarea").value
+      assert_text "1"
+
+      fill_in "query_string", with: "bad query"
+      fill_in "query_name", with: "bad-query"
+      click_button "save & run"
+
+      assert_text "bad-query"
+      assert_equal "bad query", page.find("textarea").value
+      assert_text /invalid query/i
+
+      fill_in "query_string", with: "User.destroy_all"
+      fill_in "query_name", with: "write-query"
+      click_button "save & run"
+
+      assert_text "write-query"
+      assert_equal "User.destroy_all", page.find("textarea").value
+      assert_text /can only run read queries/i
+
+      fill_in "query_string", with: "DELETE FROM users"
+      fill_in "query_name", with: "write-query-sql"
+      click_button "save & run"
+
+      assert_text "write-query-sql"
+      assert_equal "DELETE FROM users", page.find("textarea").value
+      assert_text /invalid query/i
+
+      fill_in "query_string", with: "User.where(id: nil)"
+      fill_in "query_name", with: "empty"
+      click_button "save & run"
+
+      assert_text "empty"
+      assert_equal "User.where(id: nil)", page.find("textarea").value
+      assert_text /no results/i
+
+      fill_in "query_string", with: "SELECT * FROM users WHERE id = NULL"
+      fill_in "query_name", with: "empty-sql"
+      click_button "save & run"
+
+      assert_text "empty-sql"
+      assert_equal "SELECT * FROM users WHERE id = NULL", page.find("textarea").value
+      assert_text /no results/i
+
+      fill_in "query_string", with: ""
+      fill_in "query_name", with: "empty-query"
+      click_button "save & run"
+
+      assert_text "empty-query"
+      assert_equal "", page.find("textarea").value
+    end
+
+    private
+
+    def create_user!
+      User.create!(name: random_string)
+    end
+
+    def random_string
+      SecureRandom.alphanumeric
     end
   end
 end

@@ -1,0 +1,36 @@
+<h2><%= @query.name %></h2>
+
+<%= form_with model: @query do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+  <%= form.text_area :string, value: @query.string %>
+  <%= form.submit "save & run" %>
+<% end %>
+
+<% if @result.present? && @result.valid? %>
+  <% @result.columns.each do |column| %>
+    <span><%= column %></span>
+  <% end %>
+
+  <% @result.rows_with_columns.each do |row_with_columns| %>
+    <% if row_with_columns.key?("id") %>
+      <%= form_with url: "records_path", method: :post do |form| %>
+        <%= form.hidden_field :id_, value: row_with_columns.fetch("id")  %>
+        <%= form.hidden_field :class_, value: @result.result.first.class %>
+        <%= form.hidden_field :query_id, value: @query.id %>
+        <% row_with_columns.each do |column, value| %>
+          <span><%= form.text_field column, value: value %></span>
+        <% end %>
+        <span><%= form.submit "Update" %></span>
+      <% end %>
+    <% else %>
+      <% row_with_columns.each do |_column, value| %>
+        <span><%= value %></span>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @result.present? && @result.invalid? %>
+  <%= @result.error_message %>
+<% end %>
