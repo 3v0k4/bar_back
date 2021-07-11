@@ -1,10 +1,19 @@
 # BarBack
-Short description and motivation.
 
-## Usage
-How to use my plugin.
+BackOffice is the rails console you can share with non technical people.
+
+BackOffice is simple and bullshit free by design: features are limited in scope and dependencies kept to the minimum. In other words, it's easier to use and less buggy than the alternatives.
+
+BackOffice enables you to:
+
+- execute an ActiveRecord read query;
+- save an ActiveRecord read query for later;
+- view the query result and update records behind HTTP basic authentication;
+- share the query result with anybody via a link that contains a random UUID;
+- export the query result to CSV.
 
 ## Installation
+
 Add this line to your application's Gemfile:
 
 ```ruby
@@ -12,17 +21,44 @@ gem 'bar_back'
 ```
 
 And then execute:
+
 ```bash
 $ bundle
+$ bin/rails generator bar_back:install
 ```
 
-Or install it yourself as:
+## Usage
+
+### Mounted Path
+
+BackOffice by default is mounted at `/bar_back` in `config/routes.rb`:
+
+```ruby
+mount BarBack::Engine => "/bar_back"
+```
+
+### HTTP Basic Authentication
+
+HTTP basic authentication is enabled by default in `config/initializers/bar_back.rb`:
+
+```ruby
+BarBack.http_basic_enabled = true
+BarBack.http_basic_username = "#{SecureRandom.alphanumeric(10)}"
+BarBack.http_basic_password = "#{SecureRandom.alphanumeric(10)}"
+```
+
+## Tests
+
 ```bash
-$ gem install bar_back
+$ bin/rails test test/
 ```
 
 ## Contributing
-Contribution directions go here.
+
+Contributions are more than welcome, but I'd love to keep BackOffice simple and bullshit free.
+
+Please let's discuss in an issue before submitting a pull request.
 
 ## License
+
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
