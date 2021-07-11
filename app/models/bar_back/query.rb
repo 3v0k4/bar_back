@@ -14,5 +14,17 @@ module BarBack
     rescue NameError
       false
     end
+
+    def share!
+      update!(uuid: SecureRandom.uuid)
+    end
+
+    def unshare!
+      update!(uuid: nil)
+    end
+
+    def shared?
+      uuid.nil?
+    end
   end
 end

@@ -34,7 +34,7 @@ module BarBack
     end
 
     def id
-      params.fetch(:id)
+      @id ||= params.fetch(:id)
     end
 
     def query

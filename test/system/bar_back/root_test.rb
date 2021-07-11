@@ -226,5 +226,49 @@ module BarBack
 
       assert_no_text "user-all"
     end
+
+    test "sharing" do
+      user = create_user!
+
+      visit root_path
+
+      fill_in "query", with: "User.all"
+      click_button "run"
+
+      fill_in "query_name", with: "user-all"
+      click_button "save"
+
+      click_link "user-all"
+
+      click_button "share"
+
+      assert_button "unshare"
+
+      click_button "unshare"
+
+      assert_button "share"
+
+      click_button "share"
+      click_link "public"
+
+      assert_text "User.all"
+      assert_text "id"
+      assert_text user.id
+      assert_text "name"
+      assert_text user.name
+      assert_text "created_at"
+      assert_text user.created_at
+      assert_text "updated_at"
+      assert_text user.updated_at
+
+      click_link "csv"
+      sleep 1
+
+      expected = <<~CSV
+        id,name,created_at,updated_at
+        #{user.id},#{user.name},#{user.created_at},#{user.updated_at}
+      CSV
+      assert_equal expected, File.read("#{DOWNLOAD_PATH}/user-all.csv")
+    end
   end
 end
