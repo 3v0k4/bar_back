@@ -7,6 +7,8 @@
   <%= form.submit "save & run" %>
 <% end %>
 
+<%= button_to "delete", query_path(id: @query.id), method: :delete, data: { confirm: "Are you sure?" } %>
+
 <% if @result.present? && @result.valid? %>
   <% @result.columns.each do |column| %>
     <span><%= column %></span>

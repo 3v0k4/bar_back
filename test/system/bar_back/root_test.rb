@@ -206,5 +206,25 @@ module BarBack
       CSV
       assert_equal expected, File.read("#{DOWNLOAD_PATH}/user-all.csv")
     end
+
+    test "deleting queries" do
+      visit root_path
+
+      fill_in "query", with: "User.all"
+      click_button "run"
+
+      fill_in "query_name", with: "user-all"
+      click_button "save"
+
+      click_link "user-all"
+
+      accept_alert do
+        click_button "delete"
+      end
+
+      visit root_path
+
+      assert_no_text "user-all"
+    end
   end
 end

@@ -18,9 +18,13 @@ module BarBack
     end
 
     def update
-      query = Query.find(id)
       query.update!(query_params)
       redirect_to query_path(id: id)
+    end
+
+    def destroy
+      query.destroy!
+      redirect_to root_path
     end
 
     private
