@@ -6,6 +6,7 @@ module BarBack
 
     setup do
       @routes = Engine.routes
+      BarBack.http_basic_enabled = false
     end
 
     test "running queries" do

@@ -2,6 +2,10 @@ require "bar_back/version"
 require "bar_back/engine"
 
 module BarBack
+  mattr_accessor :http_basic_enabled
+  mattr_accessor :http_basic_username
+  mattr_accessor :http_basic_password
+
   ROOT_PATH = Pathname.new(File.join(__dir__, ".."))
 
   class << self

@@ -2,6 +2,8 @@ require_dependency "bar_back/application_controller"
 
 module BarBack
   class SharedQueriesController < ApplicationController
+    skip_before_action :authenticate, only: [:show]
+
     def show
       @query = Query.find_by!(uuid: uuid)
       @result = EvaluateQuery.new.call(@query)
