@@ -34,3 +34,5 @@
 <% if @result.present? && @result.invalid? %>
   <%= @result.error_message %>
 <% end %>
+
+<%= link_to "csv", query_path(id: @query.id, format: "csv") %>

@@ -14,3 +14,11 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
   ActiveSupport::TestCase.file_fixture_path = ActiveSupport::TestCase.fixture_path + "/files"
   ActiveSupport::TestCase.fixtures :all
 end
+
+def create_user!
+  User.create!(name: random_string)
+end
+
+def random_string
+  SecureRandom.alphanumeric
+end

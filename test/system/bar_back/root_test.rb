@@ -183,14 +183,28 @@ module BarBack
       assert_equal "", page.find("textarea").value
     end
 
-    private
+    test "csv" do
+      user = create_user!
+      visit root_path
 
-    def create_user!
-      User.create!(name: random_string)
-    end
+      fill_in "query", with: "User.all"
+      click_button "run"
 
-    def random_string
-      SecureRandom.alphanumeric
+      fill_in "query_name", with: "user-all"
+      click_button "save"
+
+      click_link "user-all"
+
+      assert_link "csv"
+
+      click_link "csv"
+      sleep 1
+
+      expected = <<~CSV
+        id,name,created_at,updated_at
+        #{user.id},#{user.name},#{user.created_at},#{user.updated_at}
+      CSV
+      assert_equal expected, File.read("#{DOWNLOAD_PATH}/user-all.csv")
     end
   end
 end

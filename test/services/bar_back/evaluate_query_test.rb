@@ -35,7 +35,7 @@ module BarBack
     end
 
     test "with a write ActiveRecord query it returns an error" do
-      User.create!
+      create_user!
       query = Query.new(string: "User.destroy_all")
 
       actual = EvaluateQuery.new.call(query)
@@ -44,7 +44,7 @@ module BarBack
     end
 
     test "with a write SQL query it returns an error" do
-      User.create!
+      create_user!
       query = Query.new(string: "DELETE FROM users")
 
       actual = EvaluateQuery.new.call(query)
@@ -53,7 +53,7 @@ module BarBack
     end
 
     test "it evaluates an ActiveRecord query that returns an ActiveRecord::Relation" do
-      User.create!
+      create_user!
       query = Query.new(string: "User.all")
 
       actual = EvaluateQuery.new.call(query)
@@ -72,7 +72,7 @@ module BarBack
     end
 
     test "it evaluates an ActiveRecord query and that returns an ActiveRecord::Base" do
-      User.create!
+      create_user!
       query = Query.new(string: "User.first")
 
       actual = EvaluateQuery.new.call(query)
@@ -82,7 +82,7 @@ module BarBack
     end
 
     test "it evaluates an ActiveRecord query that returns a raw result" do
-      User.create!
+      create_user!
       query = Query.new(string: "User.count")
 
       actual = EvaluateQuery.new.call(query)
@@ -92,7 +92,7 @@ module BarBack
     end
 
     test "it evaluates a SQL query that returns a collection" do
-      User.create!
+      create_user!
       query = Query.new(string: "SELECT * FROM users")
 
       actual = EvaluateQuery.new.call(query)

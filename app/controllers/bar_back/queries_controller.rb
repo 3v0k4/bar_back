@@ -3,8 +3,13 @@ require_dependency "bar_back/application_controller"
 module BarBack
   class QueriesController < ApplicationController
     def show
-      @query = Query.find(id)
-      @result = EvaluateQuery.new.call(@query)
+      @result = EvaluateQuery.new.call(query)
+
+      respond_to do |format|
+        format.html
+        format.csv { render_csv }
+      end
+
     end
 
     def create
@@ -26,6 +31,19 @@ module BarBack
 
     def id
       params.fetch(:id)
+    end
+
+    def query
+      @query ||= Query.find(id)
+    end
+
+    def render_csv
+      send_data(
+        EvaluateQueryToCsvString.new.call(query),
+        type: "text/csv; charset=utf-8; header=present",
+        disposition: "attachment; filename=#{query.name}.csv",
+        filename: "#{query.name}.csv"
+      )
     end
   end
 end
