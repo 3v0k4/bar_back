@@ -1,13 +1,15 @@
 # BarBack
 
-BackOffice is the rails console you can share with non technical people.
+<p align="center"><img alt="BarBack logo: hanging wine glasses" src="./logo.svg" width=200px height=200px /></p>
 
-BackOffice is simple and bullshit free by design: features are limited in scope and dependencies kept to the minimum. In other words, it's easier to use and less buggy than the alternatives.
+BarBack is the Rails console you can share with non technical people.
 
-BackOffice enables you to:
+BarBack is simple and bullshit free by design: features are limited in scope and dependencies kept to the minimum. In other words, it's easier to use and less buggy than the alternatives.
 
-- execute an ActiveRecord read query;
-- save an ActiveRecord read query for later;
+BarBack enables you to:
+
+- execute an ActiveRecord or SQL read query;
+- save an ActiveRecord or SQL read query for later;
 - view the query result and update records behind HTTP basic authentication;
 - share the query result with anybody via a link that contains a random UUID;
 - export the query result to CSV.
@@ -31,7 +33,7 @@ $ bin/rails generator bar_back:install
 
 ### Mounted Path
 
-BackOffice by default is mounted at `/bar_back` in `config/routes.rb`:
+BarBack by default is mounted at `/bar_back` in `config/routes.rb`:
 
 ```ruby
 mount BarBack::Engine => "/bar_back"
@@ -55,7 +57,7 @@ $ bin/rails test test/
 
 ## Contributing
 
-Contributions are more than welcome, but I'd love to keep BackOffice simple and bullshit free.
+Contributions are more than welcome, but I'd love to keep BarBack simple and bullshit free.
 
 Please let's discuss in an issue before submitting a pull request.
 
