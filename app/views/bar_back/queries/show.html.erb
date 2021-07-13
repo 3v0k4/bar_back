@@ -9,6 +9,15 @@
 
 <%= button_to "delete", query_path(id: @query.id), method: :delete, data: { confirm: "Are you sure?" } %>
 
+<% if @error_messages.present? %>
+  Errors:
+  <ul>
+    <% @error_messages.each do |error_message| %>
+      <li><%= error_message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <% if @result.present? && @result.valid? %>
   <% @result.columns.each do |column| %>
     <span><%= column %></span>

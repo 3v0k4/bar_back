@@ -9,7 +9,6 @@ module BarBack
         format.html
         format.csv { render_csv }
       end
-
     end
 
     def create

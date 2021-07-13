@@ -380,5 +380,31 @@ module BarBack
 
       assert_equal 2, User.count
     end
+
+    test "shows error on create and update" do
+      user1 = create_user!
+      user2 = create_user!
+
+      visit root_path
+
+      fill_in "query", with: "User.all"
+      click_button "run"
+
+      fill_in "query_name", with: "user-all"
+      click_button "save"
+
+      click_link "user-all"
+
+      fill_in "id-new", with: user1.id
+      click_button "create"
+
+      assert_equal 2, User.count
+      assert_text /id has already been taken/i
+
+      fill_in "id-#{user2.id}", with: user1.id
+      click_button "update-#{user2.id}"
+
+      assert_text /id has already been taken/i
+    end
   end
 end
