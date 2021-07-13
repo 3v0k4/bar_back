@@ -322,5 +322,32 @@ module BarBack
       assert_equal new_created_at.to_i, user.created_at.to_i
       assert_equal new_updated_at.to_i, user.updated_at.to_i
     end
+
+    test "delete single record" do
+      user = create_user!
+
+      visit root_path
+
+      fill_in "query", with: "User.all"
+      click_button "run"
+
+      fill_in "query_name", with: "user-all"
+      click_button "save"
+
+      click_link "user-all"
+
+      click_button "delete-#{user.id}"
+
+      assert_equal 0, User.count
+
+      user = create_user!
+
+      fill_in "query_string", with: "SELECT * FROM users"
+      click_button "save & run"
+
+      click_button "delete-#{user.id}"
+
+      assert_equal 0, User.count
+    end
   end
 end

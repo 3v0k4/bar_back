@@ -7,6 +7,11 @@ module BarBack
       redirect_to query_path(id: query_id)
     end
 
+    def destroy
+      active_record_class.find(id).destroy!
+      redirect_to query_path(id: query_id)
+    end
+
     private
 
     def active_record_class
