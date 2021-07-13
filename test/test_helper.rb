@@ -22,3 +22,11 @@ end
 def random_string
   SecureRandom.alphanumeric
 end
+
+def random_int
+  rand(1_000_000)
+end
+
+def random_time
+  Time.current + random_int * [1, -1].sample
+end

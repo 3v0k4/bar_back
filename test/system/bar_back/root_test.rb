@@ -271,5 +271,56 @@ module BarBack
       CSV
       assert_equal expected, File.read("#{DOWNLOAD_PATH}/user-all.csv")
     end
+
+    test "update single record" do
+      user = create_user!
+
+      visit root_path
+
+      fill_in "query", with: "User.all"
+      click_button "run"
+
+      fill_in "query_name", with: "user-all"
+      click_button "save"
+
+      click_link "user-all"
+
+      new_id = random_int
+      fill_in "id-#{user.id}", with: new_id
+      new_name = random_string
+      fill_in "name-#{user.id}", with: new_name
+      new_created_at = random_time
+      fill_in "created_at-#{user.id}", with: new_created_at
+      new_updated_at = random_time
+      fill_in "updated_at-#{user.id}", with: new_updated_at
+
+      click_button "update-#{user.id}"
+
+      user = User.first
+      assert_equal new_id, user.id
+      assert_equal new_name, user.name
+      assert_equal new_created_at.to_i, user.created_at.to_i
+      assert_equal new_updated_at.to_i, user.updated_at.to_i
+
+      fill_in "query_string", with: "SELECT * FROM users"
+      click_button "save & run"
+
+      new_id = random_int
+      fill_in "id-#{user.id}", with: new_id
+      new_name = random_string
+      fill_in "name-#{user.id}", with: new_name
+      new_created_at = random_time
+      fill_in "created_at-#{user.id}", with: new_created_at
+      new_updated_at = random_time
+      fill_in "updated_at-#{user.id}", with: new_updated_at
+
+      click_button "update-#{user.id}"
+
+      user = User.first
+      assert_equal new_id, user.id
+      assert_equal new_name, user.name
+      assert_equal new_created_at.to_i, user.created_at.to_i
+      assert_equal new_updated_at.to_i, user.updated_at.to_i
+    end
   end
 end

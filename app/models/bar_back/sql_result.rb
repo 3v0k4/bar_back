@@ -1,5 +1,5 @@
 module BarBack
-  SqlResult = Struct.new(:result) do
+  SqlResult = Struct.new(:result, :query) do
     def present?
       true
     end
@@ -26,6 +26,10 @@ module BarBack
 
     def rows_with_columns
       result.to_a
+    end
+
+    def klass
+      query.klass
     end
   end
 end

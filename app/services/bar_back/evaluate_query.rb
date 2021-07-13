@@ -16,7 +16,7 @@ module BarBack
 
     def evaluate_sql(query)
       result = evaluate_sql_(query)
-      result.empty? ? EmptyResult.new : SqlResult.new(result)
+      result.empty? ? EmptyResult.new : SqlResult.new(result, query)
     rescue ActiveRecord::ReadOnlyError => e
       # Invalid queries are interpreted as
       # write queries by `while_preventing_writes`,

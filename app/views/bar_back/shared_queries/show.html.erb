@@ -10,15 +10,15 @@
   <% end %>
 
   <% @result.rows_with_columns.each do |row_with_columns| %>
-    <% if false && row_with_columns.key?("id") %>
-      <%= form_with url: "records_path", method: :post do |form| %>
+    <% if false && row_with_columns.key?("id") && @result.class.present? %>
+      <%= form_with url: records_path, method: :put do |form| %>
         <%= form.hidden_field :id_, value: row_with_columns.fetch("id")  %>
-        <%= form.hidden_field :class_, value: @result.result.first.class %>
+        <%= form.hidden_field :class_, value: @result.klass %>
         <%= form.hidden_field :query_id, value: @query.id %>
         <% row_with_columns.each do |column, value| %>
-          <span><%= form.text_field column, value: value %></span>
+          <span><%= form.text_field column, value: value, id: "#{column}-#{row_with_columns.fetch("id")}", name: "record_params[#{column}]" %></span>
         <% end %>
-        <span><%= form.submit "Update" %></span>
+        <span><%= form.submit "Update", id: "update-#{row_with_columns.fetch("id")}" %></span>
       <% end %>
     <% else %>
       <% row_with_columns.each do |_column, value| %>

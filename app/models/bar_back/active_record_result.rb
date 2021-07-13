@@ -27,5 +27,9 @@ module BarBack
     def rows_with_columns
       Array(result).map(&:attributes)
     end
+
+    def klass
+      result.klass
+    end
   end
 end
