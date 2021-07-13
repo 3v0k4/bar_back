@@ -15,10 +15,9 @@
   <% end %>
 
   <% @result.rows_with_columns.each do |row_with_columns| %>
-    <% if row_with_columns.key?("id") && @result.class.present? %>
+    <% if row_with_columns.key?("id") && @result.active_record_class.present? %>
       <%= form_with url: records_path, method: :put do |form| %>
         <%= form.hidden_field :id_, value: row_with_columns.fetch("id")  %>
-        <%= form.hidden_field :class_, value: @result.klass %>
         <%= form.hidden_field :query_id, value: @query.id %>
         <% row_with_columns.each do |column, value| %>
           <span><%= form.text_field column, value: value, id: "#{column}-#{row_with_columns.fetch("id")}", name: "record_params[#{column}]" %></span>
@@ -28,7 +27,6 @@
 
       <%= form_with url: records_path, method: :delete do |form| %>
         <%= form.hidden_field :id_, value: row_with_columns.fetch("id")  %>
-        <%= form.hidden_field :class_, value: @result.klass %>
         <%= form.hidden_field :query_id, value: @query.id %>
         <span><%= form.submit "Delete", id: "delete-#{row_with_columns.fetch("id")}" %></span>
       <% end %>
@@ -37,6 +35,16 @@
         <span><%= value %></span>
       <% end %>
     <% end %>
+  <% end %>
+<% end %>
+
+<% if @result.active_record_class.present? %>
+  <%= form_with url: records_path, method: :post do |form| %>
+    <%= form.hidden_field :query_id, value: @query.id %>
+    <% @result.columns.each do |column| %>
+      <span><%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]" %></span>
+    <% end %>
+    <span><%= form.submit "Create", id: "create" %></span>
   <% end %>
 <% end %>
 

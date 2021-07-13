@@ -2,6 +2,11 @@ require_dependency "bar_back/application_controller"
 
 module BarBack
   class RecordsController < ApplicationController
+    def create
+      active_record_class.create!(record_params)
+      redirect_to query_path(id: query_id)
+    end
+
     def update
       active_record_class.find(id).update!(record_params)
       redirect_to query_path(id: query_id)
@@ -15,7 +20,7 @@ module BarBack
     private
 
     def active_record_class
-      @active_record_class ||= BarBack.const_get(params.fetch("class_"))
+      @active_record_class ||= Query.find(query_id).active_record_class
     end
 
     def id

@@ -15,5 +15,9 @@ module BarBack
     def error_message
       ""
     end
+
+    def active_record_class
+      nil
+    end
   end
 end

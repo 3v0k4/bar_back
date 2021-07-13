@@ -5,16 +5,11 @@ module BarBack
     end
 
     def active_record_class
-      string.split('.').first || ""
-    end
-
-    def klass
-      active_record? ? active_record_class : class_from_sql
+      class_from_active_record_query || class_from_sql_query
     end
 
     def active_record?
-      klass = BarBack.const_get(active_record_class) rescue NameError; false
-      klass.ancestors.include?(ActiveRecord::Base)
+      !class_from_active_record_query.nil?
     end
 
     def share!
@@ -31,12 +26,21 @@ module BarBack
 
     private
 
-    def class_from_sql
+    def class_from_active_record_query
+      candidate = string.split('.').first || ""
+      cast(candidate)
+    end
+
+    def class_from_sql_query
       tokens = string.split(" ")
       from_index = tokens.index { |token| Regexp.new(/from/i).match?(token) }
       candidate = tokens[from_index + 1].singularize.capitalize
-      klass_ = BarBack.const_get(candidate) rescue NameError; nil
-      klass_.ancestors.include?(ActiveRecord::Base) ? klass_.to_s : nil
+      cast(candidate)
+    end
+
+    def cast(string)
+      klass = BarBack.const_get(string) rescue NameError; nil
+      klass.ancestors.include?(ActiveRecord::Base) ? klass : nil
     end
   end
 end

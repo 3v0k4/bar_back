@@ -23,5 +23,9 @@ module BarBack
     def rows_with_columns
       [{ _column: result.inspect }]
     end
+
+    def active_record_class
+      nil
+    end
   end
 end

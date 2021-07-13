@@ -28,8 +28,8 @@ module BarBack
       result.to_a
     end
 
-    def klass
-      query.klass
+    def active_record_class
+      query.active_record_class
     end
   end
 end

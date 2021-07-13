@@ -349,5 +349,30 @@ module BarBack
 
       assert_equal 0, User.count
     end
+
+    test "create single record" do
+      visit root_path
+
+      fill_in "query", with: "User.all"
+      click_button "run"
+
+      fill_in "query_name", with: "user-all"
+      click_button "save"
+
+      click_link "user-all"
+
+      fill_in "name-new", with: random_string
+      click_button "create"
+
+      assert_equal 1, User.count
+
+      fill_in "query_string", with: "SELECT * FROM users"
+      click_button "save & run"
+
+      fill_in "name-new", with: random_string
+      click_button "create"
+
+      assert_equal 2, User.count
+    end
   end
 end

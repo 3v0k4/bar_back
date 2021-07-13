@@ -67,7 +67,7 @@ module BarBack
 
       actual = EvaluateQuery.new.call(query)
 
-      expected = EmptyResult.new
+      expected = EmptyResult.new(query)
       assert_equal expected, actual
     end
 
@@ -106,7 +106,7 @@ module BarBack
 
       actual = EvaluateQuery.new.call(query)
 
-      assert_equal [], actual.columns
+      assert_equal ["id", "name", "created_at", "updated_at"], actual.columns
       assert_equal [["no results"]], actual.rows
     end
 

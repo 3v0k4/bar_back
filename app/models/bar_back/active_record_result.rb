@@ -28,7 +28,7 @@ module BarBack
       Array(result).map(&:attributes)
     end
 
-    def klass
+    def active_record_class
       result.klass
     end
   end

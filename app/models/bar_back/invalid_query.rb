@@ -23,5 +23,9 @@ module BarBack
     def columns
       []
     end
+
+    def active_record_class
+      nil
+    end
   end
 end
