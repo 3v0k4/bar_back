@@ -25,7 +25,7 @@
       <%= form_with url: records_path, method: :delete do |form| %>
         <%= form.hidden_field :id_, value: row_with_columns.fetch("id")  %>
         <%= form.hidden_field :query_id, value: @query.id %>
-        <span><%= form.submit "Delete", id: "delete-#{row_with_columns.fetch("id")}" %></span>
+        <span><%= form.submit "Delete", id: "delete-#{row_with_columns.fetch("id")}", data: { confirm: "Are you sure?" } %></span>
       <% end %>
     <% else %>
       <% row_with_columns.each do |_column, value| %>

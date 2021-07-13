@@ -336,7 +336,10 @@ module BarBack
 
       click_link "user-all"
 
-      click_button "delete-#{user.id}"
+      accept_alert do
+        click_button "delete-#{user.id}"
+      end
+      sleep 1
 
       assert_equal 0, User.count
 
@@ -345,7 +348,10 @@ module BarBack
       fill_in "query_string", with: "SELECT * FROM users"
       click_button "save & run"
 
-      click_button "delete-#{user.id}"
+      accept_alert do
+        click_button "delete-#{user.id}"
+      end
+      sleep 1
 
       assert_equal 0, User.count
     end
