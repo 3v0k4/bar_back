@@ -58,7 +58,7 @@ module BarBack
 
       actual = EvaluateQuery.new.call(query)
 
-      expected = ActiveRecordResult.new(User.all)
+      expected = ActiveRecordResult.new(User.all, query)
       assert_equal expected, actual
     end
 
@@ -77,7 +77,7 @@ module BarBack
 
       actual = EvaluateQuery.new.call(query)
 
-      expected = ActiveRecordResult.new(User.first)
+      expected = ActiveRecordResult.new(User.first, query)
       assert_equal expected, actual
     end
 

@@ -18,48 +18,7 @@
   </ul>
 <% end %>
 
-<% if @result.present? && @result.valid? %>
-  <% @result.columns.each do |column| %>
-    <span><%= column %></span>
-  <% end %>
-
-  <% @result.rows_with_columns.each do |row_with_columns| %>
-    <% if row_with_columns.key?("id") && @result.active_record_class.present? %>
-      <%= form_with url: records_path, method: :put do |form| %>
-        <%= form.hidden_field :id_, value: row_with_columns.fetch("id")  %>
-        <%= form.hidden_field :query_id, value: @query.id %>
-        <% row_with_columns.each do |column, value| %>
-          <span><%= form.text_field column, value: value, id: "#{column}-#{row_with_columns.fetch("id")}", name: "record_params[#{column}]" %></span>
-        <% end %>
-        <span><%= form.submit "Update", id: "update-#{row_with_columns.fetch("id")}" %></span>
-      <% end %>
-
-      <%= form_with url: records_path, method: :delete do |form| %>
-        <%= form.hidden_field :id_, value: row_with_columns.fetch("id")  %>
-        <%= form.hidden_field :query_id, value: @query.id %>
-        <span><%= form.submit "Delete", id: "delete-#{row_with_columns.fetch("id")}", data: { confirm: "Are you sure?" } %></span>
-      <% end %>
-    <% else %>
-      <% row_with_columns.each do |_column, value| %>
-        <span><%= value %></span>
-      <% end %>
-    <% end %>
-  <% end %>
-<% end %>
-
-<% if @result.active_record_class.present? %>
-  <%= form_with url: records_path, method: :post do |form| %>
-    <%= form.hidden_field :query_id, value: @query.id %>
-    <% @result.columns.each do |column| %>
-      <span><%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]" %></span>
-    <% end %>
-    <span><%= form.submit "Create", id: "create" %></span>
-  <% end %>
-<% end %>
-
-<% if @result.present? && @result.invalid? %>
-  <%= @result.error_message %>
-<% end %>
+<%= render "bar_back/queries/result", result: @result, allow_updates?: true %>
 
 <%= link_to "csv", query_path(id: @query.id, format: "csv") %>
 

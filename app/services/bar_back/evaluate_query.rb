@@ -52,9 +52,9 @@ module BarBack
 
     def cast(result, query)
       if result.is_a?(ActiveRecord::Relation)
-        result.empty? ? EmptyResult.new(query) : ActiveRecordResult.new(result)
+        result.empty? ? EmptyResult.new(query) : ActiveRecordResult.new(result, query)
       elsif result.is_a?(ActiveRecord::Base)
-        ActiveRecordResult.new(result)
+        ActiveRecordResult.new(result, query)
       else
         RawResult.new(result)
       end

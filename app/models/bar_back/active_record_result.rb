@@ -1,5 +1,5 @@
 module BarBack
-  ActiveRecordResult = Struct.new(:result) do
+  ActiveRecordResult = Struct.new(:result, :query) do
     def present?
       true
     end
@@ -29,7 +29,7 @@ module BarBack
     end
 
     def active_record_class
-      result.klass
+      query.active_record_class
     end
   end
 end
