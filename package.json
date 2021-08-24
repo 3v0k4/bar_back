@@ -5,11 +5,20 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "^5.0.0",
+    "@rails/webpacker": "6.0.0-rc.5",
     "turbolinks": "^5.0.0"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "webpack-dev-server": "^3.11.1"
-  }
+    "@webpack-cli/serve": "^1.5.2",
+    "webpack-dev-server": "^4.0.0"
+  },
+  "babel": {
+    "presets": [
+      "./node_modules/@rails/webpacker/package/babel/preset.js"
+    ]
+  },
+  "browserslist": [
+    "defaults"
+  ]
 }

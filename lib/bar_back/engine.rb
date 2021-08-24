@@ -1,17 +1,21 @@
+module Webpacker; end
+require "webpacker/dev_server_proxy"
+
 module BarBack
   class Engine < ::Rails::Engine
     isolate_namespace BarBack
 
     config.app_middleware.use(
       Rack::Static,
-      urls: ["/bar_back-packs", "/packs-test"], root: BarBack::Engine.root.join("public")
+      urls: ["/packs", "/packs-test"], root: BarBack::Engine.root.join("public")
     )
 
     initializer "webpacker.proxy" do |app|
       insert_middleware =
         begin
           BarBack.webpacker.config.dev_server.present?
-        rescue
+        rescue => e
+          puts e
           nil
         end
       next unless insert_middleware

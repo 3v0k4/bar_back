@@ -1,5 +1,9 @@
 require "bar_back/version"
 require "bar_back/engine"
+module Webpacker; end
+require "webpacker/ENV"
+require "webpacker/configuration"
+require "webpacker/instance"
 
 module BarBack
   mattr_accessor :http_basic_enabled
