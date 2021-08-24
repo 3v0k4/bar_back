@@ -3,6 +3,8 @@
     <span><%= column %></span>
   <% end %>
 
+  <br />
+
   <% result.rows_with_columns.each do |row_with_columns| %>
     <% if local_assigns.fetch(:allow_updates?, false) && row_with_columns.key?("id") && result.active_record_class.present? %>
       <%= form_with url: records_path, method: :put do |form| %>
@@ -24,6 +26,8 @@
         <span><%= value %></span>
       <% end %>
     <% end %>
+
+    <br />
   <% end %>
 <% end %>
 
