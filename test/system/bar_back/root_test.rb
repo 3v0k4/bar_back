@@ -250,26 +250,30 @@ module BarBack
       assert_button "share"
 
       click_button "share"
-      click_link "public"
+      window = window_opened_by do
+        click_link "public"
+      end
 
-      assert_text "User.all"
-      assert_text "id"
-      assert_text user.id
-      assert_text "name"
-      assert_text user.name
-      assert_text "created_at"
-      assert_text user.created_at
-      assert_text "updated_at"
-      assert_text user.updated_at
+      within_window(window) do
+        assert_text "User.all"
+        assert_text "id"
+        assert_text user.id
+        assert_text "name"
+        assert_text user.name
+        assert_text "created_at"
+        assert_text user.created_at
+        assert_text "updated_at"
+        assert_text user.updated_at
 
-      click_link "csv"
-      sleep 1
+        click_link "csv"
+        sleep 1
 
-      expected = <<~CSV
-        id,name,created_at,updated_at
-        #{user.id},#{user.name},#{user.created_at},#{user.updated_at}
-      CSV
-      assert_equal expected, File.read("#{DOWNLOAD_PATH}/user-all.csv")
+        expected = <<~CSV
+          id,name,created_at,updated_at
+          #{user.id},#{user.name},#{user.created_at},#{user.updated_at}
+        CSV
+        assert_equal expected, File.read("#{DOWNLOAD_PATH}/user-all.csv")
+      end
     end
 
     test "update single record" do
