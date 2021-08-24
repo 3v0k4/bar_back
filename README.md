@@ -10,7 +10,7 @@ BarBack enables you to (with HTTP basic authentication):
 
 - execute an ActiveRecord or SQL read query;
 - save an ActiveRecord or SQL read query for later;
-- view the query result and update records;
+- view the query result and update or create records;
 - share the query result with anybody via a link that contains a random UUID;
 - export the query result to CSV.
 
