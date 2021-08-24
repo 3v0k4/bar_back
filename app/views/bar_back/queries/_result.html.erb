@@ -31,13 +31,15 @@
   <% end %>
 <% end %>
 
-<% if result.active_record_class.present? %>
-  <%= form_with url: records_path, method: :post do |form| %>
-    <%= form.hidden_field :query_id, value: @query.id %>
-    <% result.columns.each do |column| %>
-      <span><%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]" %></span>
+<% if local_assigns.fetch(:allow_updates?, false) %>
+  <% if result.active_record_class.present? %>
+    <%= form_with url: records_path, method: :post do |form| %>
+      <%= form.hidden_field :query_id, value: @query.id %>
+      <% result.columns.each do |column| %>
+        <span><%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]" %></span>
+      <% end %>
+      <span><%= form.submit "Create", id: "create" %></span>
     <% end %>
-    <span><%= form.submit "Create", id: "create" %></span>
   <% end %>
 <% end %>
 
