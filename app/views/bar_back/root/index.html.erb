@@ -8,11 +8,13 @@
 
 <%= render "bar_back/queries/result", result: @result %>
 
-<%= form_with model: @query, method: :post do |form| %>
-  <%= form.label :name %>
-  <%= form.text_field :name %>
-  <%= form.hidden_field :string, value: @query.string %>
-  <%= form.submit "save" %>
+<% if @result.present? %>
+  <%= form_with model: @query, method: :post do |form| %>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+    <%= form.hidden_field :string, value: @query.string %>
+    <%= form.submit "save" %>
+  <% end %>
 <% end %>
 
 <ul>
