@@ -12,8 +12,8 @@ module BarBack
     end
 
     def create
-      Query.create!(query_params)
-      redirect_to root_path
+      query = Query.create!(query_params)
+      redirect_to query_path(id: query.id)
     end
 
     def update
