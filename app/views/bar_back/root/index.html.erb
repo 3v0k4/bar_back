@@ -1,17 +1,33 @@
-<%= form_with model: @query, method: :post do |form| %>
-  <%= form.label :string %>
-  <br />
-  <%= form.text_area :string %>
-  <br />
-  <%= form.label :name %>
-  <br />
-  <%= form.text_field :name %>
-  <br />
-  <%= form.submit "Save" %>
-<% end %>
+<header>
+  <div class="container">
+    logo
+  </div>
+</header>
 
-<ul>
-  <% @queries.each do |query| %>
-    <li><%= link_to query.name, query_path(id: query.id) %></li>
+<div class="query-form">
+  <div class="container">
+    <%= form_with model: @query, method: :post do |form| %>
+      <%= form.label :string, class: "hidden" %>
+      <%= form.text_area :string, value: @query.string, class: "query-form__query-string", placeholder: "Query in pure SQL or ActiveRecord" %>
+      <%= form.label :name, class: "hidden" %>
+      <%= form.text_field :name, class: "query-form__query-name", placeholder: "Query name" %>
+      <div class="query-form__controls">
+        <%= form.submit "Save", class: "query-form__submit" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="container saved-queries">
+  <% if @queries.size == 0 %>
+    <h2>Saved Queries</h2>
+
+    <p>Save some queries to see them here.</p>
+  <% else %>
+    <ul>
+      <% @queries.each do |query| %>
+        <li><%= link_to query.name, query_path(id: query.id) %></li>
+      <% end %>
+    </ul>
   <% end %>
-</ul>
+</div>
