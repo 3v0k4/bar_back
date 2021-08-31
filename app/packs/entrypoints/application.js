@@ -21,3 +21,25 @@ import * as ActiveStorage from "@rails/activestorage"
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+document.addEventListener("turbolinks:load", () => {
+  addFontClass()
+})
+
+const addFontClass = () => {
+  if (sessionStorage.fontsLoaded === "true") {
+    document.documentElement.classList.add("fonts-loaded")
+    return
+  }
+
+  if ("fonts" in document) {
+    Promise.all([
+      document.fonts.load('123px "JetBrains Mono"'),
+      document.fonts.load('123px "Raleway"'),
+    ]).then(() => {
+      document.documentElement.classList.add("fonts-loaded")
+      sessionStorage.fontsLoaded = "true"
+    })
+  }
+}
+

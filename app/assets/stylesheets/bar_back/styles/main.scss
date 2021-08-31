@@ -23,15 +23,36 @@ body {
   margin: 0;
 }
 
+@mixin mono() {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+@mixin sans-serif() {
+  font-family: 'Raleway', sans-serif;
+}
+
 h2 {
+  @include sans-serif();
   text-transform: uppercase;
+  font-size: 1.3rem;
   font-weight: bold;
-  font-size: 21px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.2rem;
+}
+
+input[type="button"], input[type="submit"] {
+  @include sans-serif();
+  font-size: 1rem;
 }
 
 p {
+  @include mono();
+  font-size: 1rem;
   margin-top: $space-2;
+}
+
+input[type="text"], textarea {
+  @include mono();
+  font-size: 1rem;
 }
 
 .container {

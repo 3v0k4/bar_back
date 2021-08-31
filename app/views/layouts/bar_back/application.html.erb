@@ -7,8 +7,20 @@
 
     <%= stylesheet_link_tag "bar_back/application", media: "all" %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;700&family=Raleway:wght@400;700&display=swap" rel="stylesheet">
   </head>
-  <body>
+  <body class="body">
+    <div aria-hidden="true" class="hidden" style="font-family: 'JetBrains Mono'">
+      &nbsp;
+    </div>
+
+    <div aria-hidden="true" class="hidden" style="font-family: 'Raleway'">
+      &nbsp;
+    </div>
+
     <%= yield %>
   </body>
 </html>
