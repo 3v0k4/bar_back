@@ -9,6 +9,48 @@ module BarBack
       BarBack.http_basic_enabled = false
     end
 
+    test "no public queries" do
+      visit root_path
+
+      assert_text /save some queries to see them here/i
+    end
+
+    test "list of queries" do
+      user = create_user!
+      visit root_path
+
+      fill_in "query_string", with: "User.all"
+      fill_in "query_name", with: "user-all"
+      click_button "Save"
+
+      visit root_path
+
+      assert_text "User.all"
+      assert_text "user-all"
+      assert_text /private/i
+
+      click_link "user-all"
+      click_button "share"
+      visit root_path
+
+      assert_text /public/i
+    end
+
+    test "delete query" do
+      user = create_user!
+      visit root_path
+      fill_in "query_string", with: "User.all"
+      fill_in "query_name", with: "user-all"
+      click_button "Save"
+      visit root_path
+
+      accept_alert do
+        click_button "Delete"
+      end
+
+      assert_text /save some queries to see them here/i
+    end
+
     test "empty result" do
       visit root_path
       fill_in "query_string", with: "User.all"

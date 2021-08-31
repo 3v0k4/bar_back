@@ -19,14 +19,31 @@
 </div>
 
 <div class="container saved-queries">
-  <% if @queries.size == 0 %>
-    <h2>Saved Queries</h2>
+  <h2>Saved Queries</h2>
 
+  <% if @queries.size == 0 %>
     <p>Save some queries to see them here.</p>
   <% else %>
     <ul>
-      <% @queries.each do |query| %>
-        <li><%= link_to query.name, query_path(id: query.id) %></li>
+      <% @queries.each_with_index do |query, i| %>
+        <% if i != 0 %>
+          <div class="divider">
+            <span class="divider__line"></span>
+            <span class="divider__icon">X</span>
+            <span class="divider__line"></span>
+          </div>
+        <% end %>
+
+        <li class="saved-queries__item">
+          <div class="saved-queries__header">
+            <h3><%= link_to query.name, query_path(id: query.id), class: "saved-queries__name" %></h3>
+            <span class="saved-queries__tag saved-queries__tag--<%= query.shared? ? "public" : "private" %>"><%= query.shared? ? "public" : "private" %></span>
+          </div>
+
+          <p class="saved-queries__string"><%= query.string %></p>
+
+          <%= button_to "Delete", query_path(id: query.id), method: :delete, data: { confirm: "Are you sure?" }, class: "saved-queries__delete" %>
+        </li>
       <% end %>
     </ul>
   <% end %>

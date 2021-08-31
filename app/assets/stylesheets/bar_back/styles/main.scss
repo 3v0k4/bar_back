@@ -2,6 +2,7 @@ $aubergine: #2C0D36;
 $light-aubergine: #5C3C67;
 $ice: #F8F8F8;
 $dark-ice: #D7D7D7;
+$pink: #E6A5FF;
 
 $space-1: 10px;
 $space-2: 20px;
@@ -39,7 +40,12 @@ h2 {
   letter-spacing: 0.2rem;
 }
 
-input[type="button"], input[type="submit"] {
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+input[type="button"], input[type="submit"], span {
   @include sans-serif();
   font-size: 1rem;
 }
@@ -47,7 +53,7 @@ input[type="button"], input[type="submit"] {
 p {
   @include mono();
   font-size: 1rem;
-  margin-top: $space-2;
+  margin: $space-2 0;
 }
 
 input[type="text"], textarea {
@@ -130,4 +136,79 @@ input[type="text"], textarea {
 
 .saved-queries {
   margin: $space-4 auto;
+}
+
+.saved-queries__item {
+  margin-top: $space-2;
+  list-style: none;
+}
+
+.saved-queries__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.saved-queries__name {
+  color: $ice;
+  font-size: 1.3rem;
+}
+
+.saved-queries__tag {
+  padding: 10px;
+  border-radius: 30px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.saved-queries__tag--public {
+  background-color: $pink;
+  color: $aubergine;
+}
+
+.saved-queries__tag--private {
+  border: 1px solid $pink;
+  color: $pink;
+}
+
+.saved-queries__string {
+  white-space: pre;
+  line-height: 1.7;
+}
+
+.saved-queries__delete {
+  padding: $space-1;
+  height: $height;
+  background: none;
+  -webkit-appearance: none;
+  color: $ice;
+  border: 1px solid $ice;
+  min-width: $width;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: $space-2 0;
+
+  &:hover, &:active {
+    background-color: $ice;
+    color: $aubergine;
+  }
+}
+
+.divider {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: $space-2 0;
+}
+
+.divider__line {
+  height: 1px;
+  background-color: $light-aubergine;
+  flex: 1 1 auto;
+}
+
+.divider__icon {
+  margin: 0 20px;
+  color: $light-aubergine;
 }
