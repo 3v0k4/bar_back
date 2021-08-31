@@ -21,7 +21,7 @@ module BarBack
     end
 
     def shared?
-      uuid.nil?
+      !uuid.nil?
     end
 
     private

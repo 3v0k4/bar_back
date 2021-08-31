@@ -25,8 +25,8 @@
 <%= link_to "csv", query_path(id: @query.id, format: "csv") %>
 
 <% if @query.shared? %>
-  <%= button_to "share", shared_query_path(id: @query.id), method: :put %>
-<% else %>
   <%= button_to "unshare", shared_query_path(id: @query.id), method: :delete %>
   <%= link_to "public", shared_query_path(id: @query.id, uuid: @query.uuid), target: '_blank' %>
+<% else %>
+  <%= button_to "share", shared_query_path(id: @query.id), method: :put %>
 <% end %>
