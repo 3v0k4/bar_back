@@ -1,5 +1,8 @@
 module BarBack
   class Query < ApplicationRecord
+    validates_presence_of :string
+    validates_presence_of :name
+
     def empty?
       string.blank?
     end
@@ -12,15 +15,15 @@ module BarBack
       !class_from_active_record_query.nil?
     end
 
-    def share!
+    def public!
       update!(uuid: SecureRandom.uuid)
     end
 
-    def unshare!
+    def private!
       update!(uuid: nil)
     end
 
-    def shared?
+    def public?
       !uuid.nil?
     end
 

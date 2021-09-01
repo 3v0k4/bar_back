@@ -16,8 +16,16 @@ module BarBack
       ""
     end
 
+    def rows
+      []
+    end
+
     def active_record_class
       nil
+    end
+
+    def size
+      rows.size
     end
   end
 end

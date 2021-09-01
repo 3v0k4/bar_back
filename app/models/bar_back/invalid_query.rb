@@ -13,7 +13,7 @@ module BarBack
     end
 
     def error_message
-      "invalid query: #{error.message}"
+      error.message
     end
 
     def rows

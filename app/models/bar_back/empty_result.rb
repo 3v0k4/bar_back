@@ -21,15 +21,19 @@ module BarBack
     end
 
     def rows
-      [['no results']]
+      []
     end
 
     def rows_with_columns
-      [{ _column: 'no results' }]
+      []
     end
 
     def active_record_class
       query.active_record_class
+    end
+
+    def size
+      rows.size
     end
   end
 end

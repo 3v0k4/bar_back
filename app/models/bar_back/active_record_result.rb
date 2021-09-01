@@ -31,5 +31,9 @@ module BarBack
     def active_record_class
       query.active_record_class
     end
+
+    def size
+      rows.size
+    end
   end
 end

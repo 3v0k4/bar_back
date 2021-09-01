@@ -27,5 +27,9 @@ module BarBack
     def active_record_class
       nil
     end
+
+    def size
+      1
+    end
   end
 end

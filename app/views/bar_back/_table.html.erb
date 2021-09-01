@@ -1,0 +1,22 @@
+<div class="table__row">
+  <div class="table__column table__column--header">
+    <% columns1.each do |column| %>
+      <div class="table__header"><%= column %></div>
+    <% end %>
+  </div>
+  <div class="table__column table__column--data">
+    <% if type == :create %>
+      <% columns2.each do |column| %>
+        <%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]", class: "table__input" %>
+      <% end %>
+    <% elsif type == :read %>
+      <% columns2.each do |_column, value| %>
+        <span><%= value %></span>
+      <% end %>
+    <% elsif type == :update %>
+      <% columns2.each do |column, value| %>
+        <%= form.text_field column, value: value, id: "#{column}-#{columns2.fetch("id")}", name: "record_params[#{column}]", class: "table__input" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

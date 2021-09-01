@@ -1,32 +1,94 @@
-<%= link_to "home", root_path %>
+<header>
+  <div class="container">
+    <%= link_to "logo", root_path %>
+  </div>
+</header>
 
-<h2><%= @query.name %></h2>
+<div class="container">
+  <h1><%= @query.name %></h1>
+</div>
 
-<%= form_with model: @query do |form| %>
-  <%= form.label :name %>
-  <%= form.text_field :name %>
-  <%= form.text_area :string, value: @query.string %>
-  <%= form.submit "save & run" %>
-<% end %>
+<%= render "bar_back/queries/form", query: @query %>
 
-<%= button_to "delete", query_path(id: @query.id), method: :delete, data: { confirm: "Are you sure?" } %>
+<div class="container results">
+  <% if @result.present? && @result.invalid? %>
+    <h2>Error</h2>
+    <span class="results__error"><%= @result.error_message %></span>
+  <% end %>
 
-<% if @error_messages.present? %>
-  Errors:
-  <ul>
-    <% @error_messages.each do |error_message| %>
-      <li><%= error_message %></li>
+  <% if @result.present? && @result.valid? %>
+    <% if @result.size.zero? %>
+      <div class="results__header">
+        <h2 class="results__heading">No Results</h2>
+      </div>
+
+    <% else %>
+      <div class="results__header">
+        <h2>Results (<%= @result.size %>)</h2>
+        <%= link_to "Export CSV", query_path(id: @query.id, format: "csv"), class: "results__export" %>
+      </div>
+
+      <%= form_with url: public_query_path(id: @query.id), method: :put, html: { onchange: "this.submit()", class: "visibility-form" } do |form| %>
+        <%= form.radio_button :visibility, "private", class: "visibility-form__button", disabled: !@query.public? %>
+        <%= form.label :visibility_private, "Private", class: "visibility-form__label #{@query.public? ? "visibility-form__label--selected" : "visibility-form__label--not-selected"}" %>
+        <%= form.radio_button :visibility, "public", class: "visibility-form__button", disabled: @query.public? %>
+        <%= form.label :visibility_public, "Public", class: "visibility-form__label #{@query.public? ? "visibility-form__label--not-selected" : "visibility-form__label--selected"}" %>
+        <%= form.submit "Update", class: "hidden" %>
+      <% end %>
+
+      <% if @query.public? %>
+        <div class="public-link">
+          <div class="public-link__url-container">
+            <%= link_to public_query_path(id: @query.id, uuid: @query.uuid), public_query_path(id: @query.id, uuid: @query.uuid), target: '_blank', class: "public-link__url" %>
+          </div>
+          <button class="public-link__copy" data-clipboard-target=".public-link__url">Copy</button>
+        </div>
+
+      <% else %>
+        <div class="public-link__explanation">
+          The result of the query is currently private.
+          <br />
+          You can generate a random public link to a read-only view.
+        </div>
+      <% end %>
+
+      <% if @error_messages.present? %>
+        Errors:
+        <ul>
+          <% @error_messages.each do |error_message| %>
+            <li><%= error_message %></li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <%= render "bar_back/queries/result", result: @result, allow_updates?: true %>
     <% end %>
-  </ul>
-<% end %>
 
-<%= render "bar_back/queries/result", result: @result, allow_updates?: true %>
+    <% if @result.active_record_class.present? %>
+      <% if @result.present? && @result.valid? && @result.rows_with_columns.size.positive? %>
+        <div class="divider">
+          <span class="divider__line"></span>
+          <span class="divider__icon">X</span>
+          <span class="divider__line"></span>
+        </div>
+      <% end %>
 
-<%= link_to "csv", query_path(id: @query.id, format: "csv") %>
-
-<% if @query.shared? %>
-  <%= button_to "unshare", shared_query_path(id: @query.id), method: :delete %>
-  <%= link_to "public", shared_query_path(id: @query.id, uuid: @query.uuid), target: '_blank' %>
-<% else %>
-  <%= button_to "share", shared_query_path(id: @query.id), method: :put %>
-<% end %>
+      <%= form_with url: records_path, method: :post do |form| %>
+        <%= form.hidden_field :query_id, value: @query.id %>
+        <div class="table__row">
+          <div class="table__column table__column--header">
+            <% @result.columns.each do |column| %>
+              <div class="table__header"><%= column %></div>
+            <% end %>
+          </div>
+          <div class="table__column table__column--data">
+            <% @result.columns.each do |column| %>
+              <%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]", class: "table__input" %>
+            <% end %>
+          </div>
+        </div>
+        <%= form.submit "Create", id: "create", class: "table__create" %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

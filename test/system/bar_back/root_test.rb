@@ -30,7 +30,7 @@ module BarBack
       assert_text /private/i
 
       click_link "user-all"
-      click_button "share"
+      find("label", text: "Public").click
       visit root_path
 
       assert_text /public/i
@@ -89,7 +89,7 @@ module BarBack
 
       fill_in "query_string", with: "SELECT * FROM users"
       fill_in "query_name", with: "user-all-sql"
-      click_button "save & run"
+      click_button "Save"
 
       assert_text "user-all-sql"
       assert_equal "SELECT * FROM users", page.find("textarea").value
@@ -108,7 +108,7 @@ module BarBack
 
       fill_in "query_string", with: "User.first"
       fill_in "query_name", with: "user-first"
-      click_button "save & run"
+      click_button "Save"
 
       assert_text "user-first"
       assert_equal "User.first", page.find("textarea").value
@@ -123,7 +123,7 @@ module BarBack
 
       fill_in "query_string", with: "SELECT name FROM users"
       fill_in "query_name", with: "user-all-name"
-      click_button "save & run"
+      click_button "Save"
 
       assert_text "user-all-name"
       assert_equal "SELECT name FROM users", page.find("textarea").value
@@ -133,7 +133,7 @@ module BarBack
 
       fill_in "query_string", with: "User.count"
       fill_in "query_name", with: "user-count"
-      click_button "save & run"
+      click_button "Save"
 
       assert_text "user-count"
       assert_equal "User.count", page.find("textarea").value
@@ -141,7 +141,7 @@ module BarBack
 
       fill_in "query_string", with: "SELECT COUNT(*) FROM users"
       fill_in "query_name", with: "user-count-sql"
-      click_button "save & run"
+      click_button "Save"
 
       assert_text "user-count-sql"
       assert_equal "SELECT COUNT(*) FROM users", page.find("textarea").value
@@ -149,15 +149,15 @@ module BarBack
 
       fill_in "query_string", with: "bad query"
       fill_in "query_name", with: "bad-query"
-      click_button "save & run"
+      click_button "Save"
 
       assert_text "bad-query"
       assert_equal "bad query", page.find("textarea").value
-      assert_text /invalid query/i
+      assert_text /error/i
 
       fill_in "query_string", with: "User.destroy_all"
       fill_in "query_name", with: "write-query"
-      click_button "save & run"
+      click_button "Save"
 
       assert_text "write-query"
       assert_equal "User.destroy_all", page.find("textarea").value
@@ -165,15 +165,15 @@ module BarBack
 
       fill_in "query_string", with: "DELETE FROM users"
       fill_in "query_name", with: "write-query-sql"
-      click_button "save & run"
+      click_button "Save"
 
       assert_text "write-query-sql"
       assert_equal "DELETE FROM users", page.find("textarea").value
-      assert_text /invalid query/i
+      assert_text /error/i
 
       fill_in "query_string", with: "User.where(id: nil)"
       fill_in "query_name", with: "empty"
-      click_button "save & run"
+      click_button "Save"
 
       assert_text "empty"
       assert_equal "User.where(id: nil)", page.find("textarea").value
@@ -181,18 +181,11 @@ module BarBack
 
       fill_in "query_string", with: "SELECT * FROM users WHERE id = NULL"
       fill_in "query_name", with: "empty-sql"
-      click_button "save & run"
+      click_button "Save"
 
       assert_text "empty-sql"
       assert_equal "SELECT * FROM users WHERE id = NULL", page.find("textarea").value
       assert_text /no results/i
-
-      fill_in "query_string", with: ""
-      fill_in "query_name", with: "empty-query"
-      click_button "save & run"
-
-      assert_text "empty-query"
-      assert_equal "", page.find("textarea").value
     end
 
     test "csv" do
@@ -203,9 +196,9 @@ module BarBack
       fill_in "query_name", with: "user-all"
       click_button "Save"
 
-      assert_link "csv"
+      assert_link "Export CSV"
 
-      click_link "csv"
+      click_link "Export CSV"
       sleep 1
 
       expected = <<~CSV
@@ -223,7 +216,7 @@ module BarBack
       click_button "Save"
 
       accept_alert do
-        click_button "delete"
+        click_link "Delete"
       end
 
       visit root_path
@@ -240,17 +233,22 @@ module BarBack
       fill_in "query_name", with: "user-all"
       click_button "Save"
 
-      click_button "share"
+      assert_text <<~EOF
+        The result of the query is currently private.
+        You can generate a random public link to a read-only view.
+      EOF
 
-      assert_button "unshare"
+      find("label", text: "Public").click
 
-      click_button "unshare"
+      #assert_button "Private"
 
-      assert_button "share"
+      find("label", text: "Private").click
 
-      click_button "share"
+      #assert_button "Public"
+
+      find("label", text: "Public").click
       window = window_opened_by do
-        click_link "public"
+        click_link public_query_path(id: Query.last.id, uuid: Query.last.uuid)
       end
 
       within_window(window) do
@@ -264,7 +262,7 @@ module BarBack
         assert_text "updated_at"
         assert_text user.updated_at
 
-        click_link "csv"
+        click_link "Export CSV"
         sleep 1
 
         expected = <<~CSV
@@ -302,7 +300,7 @@ module BarBack
       assert_equal new_updated_at.to_i, user.updated_at.to_i
 
       fill_in "query_string", with: "SELECT * FROM users"
-      click_button "save & run"
+      click_button "Save"
 
       new_id = random_int
       fill_in "id-#{user.id}", with: new_id
@@ -332,7 +330,7 @@ module BarBack
       click_button "Save"
 
       accept_alert do
-        click_button "delete-#{user.id}"
+        click_link "delete-#{user.id}"
       end
       sleep 1
 
@@ -341,10 +339,10 @@ module BarBack
       user = create_user!
 
       fill_in "query_string", with: "SELECT * FROM users"
-      click_button "save & run"
+      click_button "Save"
 
       accept_alert do
-        click_button "delete-#{user.id}"
+        click_link "delete-#{user.id}"
       end
       sleep 1
 
@@ -364,7 +362,7 @@ module BarBack
       assert_equal 1, User.count
 
       fill_in "query_string", with: "SELECT * FROM users"
-      click_button "save & run"
+      click_button "Save"
 
       fill_in "name-new", with: random_string
       click_button "create"

@@ -1,9 +1,0 @@
-<h1>Shared Queries</h1>
-
-<%= @query.string %>
-
-<br />
-
-<%= render "bar_back/queries/result", result: @result %>
-
-<%= link_to "csv", query_path(id: @query.id, format: "csv") %>

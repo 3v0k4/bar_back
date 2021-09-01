@@ -3,6 +3,7 @@ $light-aubergine: #5C3C67;
 $ice: #F8F8F8;
 $dark-ice: #D7D7D7;
 $pink: #E6A5FF;
+$dark-pink: #BE8ACF;
 
 $space-1: 10px;
 $space-2: 20px;
@@ -10,6 +11,10 @@ $space-4: 40px;
 
 $height: 45px;
 $width: 70px;
+
+$margin: 10px;
+
+$border-radius: 5px;
 
 $medium-breakpoint: 480px;
 $large-breakpoint: 768px;
@@ -19,7 +24,7 @@ $large-breakpoint: 768px;
 }
 
 body {
-  background: $aubergine;
+  background-color: $aubergine;
   color: $ice;
   margin: 0;
 }
@@ -30,6 +35,45 @@ body {
 
 @mixin sans-serif() {
   font-family: 'Raleway', sans-serif;
+}
+
+@mixin button() {
+  @include sans-serif;
+  -webkit-appearance: none;
+  align-items: center;
+  border-radius: $border-radius;
+  border: 1px solid $ice;
+  cursor: pointer;
+  display: flex;
+  font-size: 1rem;
+  height: $height;
+  justify-content: center;
+  margin: 0;
+  min-width: $width;
+  padding: 10px;
+  text-decoration: none;
+}
+
+@mixin primary-button() {
+  @include button;
+  background-color: $ice;
+  color: $aubergine;
+
+  &:hover, &:active {
+    background-color: $dark-ice;
+    border-color: $dark-ice;
+  }
+}
+
+@mixin secondary-button() {
+  @include button;
+  background: none;
+  color: $ice;
+
+  &:hover, &:active {
+    background-color: $ice;
+    color: $aubergine;
+  }
 }
 
 h2 {
@@ -112,26 +156,14 @@ input[type="text"], textarea {
 }
 
 .query-form__controls {
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
   margin-top: $space-2;
 }
 
 .query-form__submit {
-  padding: $space-1;
-  height: $height;
-  background: none;
-  -webkit-appearance: none;
-  background-color: $ice;
-  border: 1px solid $ice;
-  min-width: $width;
-  border-radius: 5px;
-  color: $aubergine;
-  cursor: pointer;
-
-  &:hover, &:active {
-    background-color: $dark-ice;
-    border-color: $dark-ice;
-  }
+  @include primary-button;
+  margin-left: $margin;
 }
 
 .saved-queries {
@@ -185,7 +217,7 @@ input[type="text"], textarea {
   color: $ice;
   border: 1px solid $ice;
   min-width: $width;
-  border-radius: 5px;
+  border-radius: $border-radius;
   cursor: pointer;
   margin: $space-2 0;
 
@@ -211,4 +243,185 @@ input[type="text"], textarea {
 .divider__icon {
   margin: 0 20px;
   color: $light-aubergine;
+}
+
+.query-form__delete {
+  @include secondary-button;
+  margin-right: $margin;
+}
+
+.results__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.results__heading {
+  margin: 0;
+}
+
+.results__export {
+  @include secondary-button;
+}
+
+.results__error {
+  @include sans-serif;
+}
+
+.visibility-form {
+  display: flex;
+  margin-top: $space-2;
+}
+
+.visibility-form__button {
+  display: none;
+}
+
+.public-link__explanation {
+  @include sans-serif;
+  color: $dark-pink;
+  font-size: 1rem;
+  line-height: 25px;
+  margin-top: $space-2;
+}
+
+.visibility-form__label {
+  @include sans-serif;
+  align-content: center;
+  align-items: center;
+  background: none;
+  border: 1px solid $ice;
+  border-right: none;
+  cursor: pointer;
+  display: flex;
+  height: $height;
+  justify-content: center;
+  margin-right: -5px;
+  min-width: 45px;
+  padding: $space-1 15px;
+}
+
+.visibility-form__label--not-selected {
+  background-color: $ice;
+  color: $aubergine;
+}
+
+.visibility-form__label--selected {
+  &:hover, &:active {
+    background-color: $ice;
+    color: $aubergine;
+  }
+}
+
+.visibility-form__label:first-of-type {
+  border-radius: $border-radius 0 0 $border-radius;
+}
+
+.visibility-form__label:last-of-type {
+  border-radius: 0 $border-radius 5px $border-radius;
+  border-right: 1px solid $ice;
+}
+
+.public-link {
+  align-items: center;
+  display: flex;
+  margin-top: $space-2;
+}
+
+.public-link__url-container {
+  align-items: center;
+  border-radius: $border-radius 0 0 $border-radius;
+  border: 1px solid white;
+  display: flex;
+  flex: 1 1 auto;
+  height: $height;
+  min-width: 0;
+  padding: 10px;
+}
+
+.public-link__url {
+  @include mono;
+  color: $ice;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.public-link__copy {
+  @include primary-button;
+  border-radius: 0 $border-radius $border-radius 0;
+  flex: 0 0 auto;
+}
+
+.results {
+  margin-top: $space-4;
+  padding-bottom: $space-4;
+}
+
+.table {
+  margin-top: $space-4;
+}
+
+.table__row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.table__column {
+  display: flex;
+  flex-direction: column;
+}
+
+.table__column--header {
+  flex: 0;
+  padding-right: 20px;
+}
+
+.table__column--data {
+  flex: 1;
+}
+
+.table__header {
+  @include mono;
+  align-items: center;
+  display: inline-flex;
+  font-weight: bold;
+  height: 41px;
+  margin-bottom: 24px;
+  margin-top: 4px;
+  padding: 1px;
+  width: 100px;
+}
+
+.table__input {
+  background: $light-aubergine;
+  border: 1px solid white;
+  color: $ice;
+  height: $height;
+  margin-bottom: 22px;
+  margin-top: 2px;
+  max-width: 400px;
+  padding: 10px;
+}
+
+.table__create {
+  @include primary-button;
+}
+
+.result__controls {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: $space-2;
+}
+
+.result__delete {
+  @include secondary-button;
+  margin-right: $margin;
+}
+
+.result__update {
+  @include primary-button;
+  margin-left: $margin;
 }

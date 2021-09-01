@@ -12,8 +12,13 @@ module BarBack
     end
 
     def create
-      query = Query.create!(query_params)
-      redirect_to query_path(id: query.id)
+      @query = Query.new(query_params)
+      if @query.save
+        redirect_to query_path(id: @query.id)
+      else
+        @queries = Query.all
+        render 'bar_back/root/index'
+      end
     end
 
     def update

@@ -17,10 +17,12 @@
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
+import ClipboardJS from 'clipboard'
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+new ClipboardJS('.yyyy')
 
 document.addEventListener("turbolinks:load", () => {
   addFontClass()

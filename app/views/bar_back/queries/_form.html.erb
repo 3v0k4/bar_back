@@ -1,0 +1,16 @@
+<div class="query-form">
+  <div class="container">
+    <%= form_with model: query do |form| %>
+      <%= form.label :string, class: "hidden" %>
+      <%= form.text_area :string, class: "query-form__query-string", placeholder: "Query in pure SQL or ActiveRecord", required: true %>
+      <%= form.label :name, class: "hidden" %>
+      <%= form.text_field :name, class: "query-form__query-name", placeholder: "Query name", required: true %>
+      <div class="query-form__controls">
+        <% if query.persisted? %>
+          <%= link_to "Delete", query_path(id: query.id), method: :delete, data: { confirm: "Are you sure?" }, class: "query-form__delete" %>
+        <% end %>
+        <%= form.submit "Save", class: "query-form__submit" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 require_dependency "bar_back/application_controller"
 
 module BarBack
-  class SharedQueriesController < ApplicationController
+  class PublicQueriesController < ApplicationController
     skip_before_action :authenticate, only: [:show]
 
     def show
@@ -10,12 +10,8 @@ module BarBack
     end
 
     def update
-      query.share!
-      redirect_to query_path(id: query.id)
-    end
-
-    def destroy
-      query.unshare!
+      method = { private: :private!, public: :public! }.stringify_keys[params.fetch(:visibility)]
+      query.send(method)
       redirect_to query_path(id: query.id)
     end
 

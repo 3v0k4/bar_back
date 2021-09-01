@@ -1,22 +1,10 @@
 <header>
   <div class="container">
-    logo
+    <%= link_to "logo", root_path %>
   </div>
 </header>
 
-<div class="query-form">
-  <div class="container">
-    <%= form_with model: @query, method: :post do |form| %>
-      <%= form.label :string, class: "hidden" %>
-      <%= form.text_area :string, value: @query.string, class: "query-form__query-string", placeholder: "Query in pure SQL or ActiveRecord" %>
-      <%= form.label :name, class: "hidden" %>
-      <%= form.text_field :name, class: "query-form__query-name", placeholder: "Query name" %>
-      <div class="query-form__controls">
-        <%= form.submit "Save", class: "query-form__submit" %>
-      </div>
-    <% end %>
-  </div>
-</div>
+<%= render "bar_back/queries/form", query: @query %>
 
 <div class="container saved-queries">
   <h2>Saved Queries</h2>
@@ -37,7 +25,7 @@
         <li class="saved-queries__item">
           <div class="saved-queries__header">
             <h3><%= link_to query.name, query_path(id: query.id), class: "saved-queries__name" %></h3>
-            <span class="saved-queries__tag saved-queries__tag--<%= query.shared? ? "public" : "private" %>"><%= query.shared? ? "public" : "private" %></span>
+            <span class="saved-queries__tag saved-queries__tag--<%= query.public? ? "public" : "private" %>"><%= query.public? ? "public" : "private" %></span>
           </div>
 
           <p class="saved-queries__string"><%= query.string %></p>
