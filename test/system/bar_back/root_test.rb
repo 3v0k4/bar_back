@@ -9,7 +9,7 @@ module BarBack
       BarBack.http_basic_enabled = false
     end
 
-    test "no public queries" do
+    test "no saved queries" do
       visit root_path
 
       assert_text /save some queries to see them here/i
@@ -252,6 +252,9 @@ module BarBack
       end
 
       within_window(window) do
+        assert_text Query.last.name
+        assert_text Query.last.string
+        assert_text /results \(1\)/i
         assert_text "User.all"
         assert_text "id"
         assert_text user.id

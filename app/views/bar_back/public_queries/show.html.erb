@@ -1,9 +1,15 @@
-<h1>Public Queries</h1>
+<div class="container">
+  <h1><%= @query.name %></h1>
 
-<%= @query.string %>
+  <p class="saved-queries__string"><%= @query.string %></p>
 
-<br />
+  <%= render "bar_back/queries/results", query: @query, result: @result, error_messages: @error_messages %>
+</div>
 
-<%= render "bar_back/queries/result", result: @result %>
+<footer class="footer">
+  <div class="container footer__container">
+    <div><%= link_to "logo", root_path %></div>
 
-<%= link_to "Export CSV", query_path(id: @query.id, format: "csv") %>
+    <div class="footer__text">Query shared with <%= link_to "BarBack", "http://example.com", target: '_blank', class: "footer__link" %></div>
+  </div>
+</footer>

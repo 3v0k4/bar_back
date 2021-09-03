@@ -31,10 +31,12 @@ body {
 
 @mixin mono() {
   font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
 }
 
 @mixin sans-serif() {
   font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
 }
 
 @mixin button() {
@@ -45,7 +47,6 @@ body {
   border: 1px solid $ice;
   cursor: pointer;
   display: flex;
-  font-size: 1rem;
   height: $height;
   justify-content: center;
   margin: 0;
@@ -91,18 +92,15 @@ ul {
 
 input[type="button"], input[type="submit"], span {
   @include sans-serif();
-  font-size: 1rem;
 }
 
 p {
   @include mono();
-  font-size: 1rem;
   margin: $space-2 0;
 }
 
 input[type="text"], textarea {
   @include mono();
-  font-size: 1rem;
 }
 
 .container {
@@ -231,7 +229,7 @@ input[type="text"], textarea {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: $space-2 0;
+  margin: $space-4 0;
 }
 
 .divider__line {
@@ -280,7 +278,6 @@ input[type="text"], textarea {
 .public-link__explanation {
   @include sans-serif;
   color: $dark-pink;
-  font-size: 1rem;
   line-height: 25px;
   margin-top: $space-2;
 }
@@ -395,6 +392,11 @@ input[type="text"], textarea {
   width: 100px;
 }
 
+.table__header:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 .table__input {
   background: $light-aubergine;
   border: 1px solid white;
@@ -404,6 +406,25 @@ input[type="text"], textarea {
   margin-top: 2px;
   max-width: 400px;
   padding: 10px;
+}
+
+.table__input:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.table__data {
+  color: $ice;
+  height: calc(#{$height} + 1px);
+  margin-bottom: 22px;
+  margin-top: 2px;
+  max-width: 400px;
+  padding: 10px;
+}
+
+.table__data:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .table__create {
@@ -424,4 +445,23 @@ input[type="text"], textarea {
 .result__update {
   @include primary-button;
   margin-left: $margin;
+}
+
+.footer {
+  background-color: $light-aubergine;
+  padding: $space-4 0;
+}
+
+.footer__container {
+  text-align: center;
+}
+
+.footer__text {
+  @include sans-serif;
+  margin-top: $space-4;
+  font-weight: lighter;
+}
+
+.footer__link {
+  color: $ice;
 }
