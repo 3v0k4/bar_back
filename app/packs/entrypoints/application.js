@@ -22,10 +22,10 @@ import ClipboardJS from 'clipboard'
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
-new ClipboardJS('.yyyy')
 
 document.addEventListener("turbolinks:load", () => {
   addFontClass()
+  setupCopy()
 })
 
 const addFontClass = () => {
@@ -45,3 +45,23 @@ const addFontClass = () => {
   }
 }
 
+const setupCopy = () => {
+  const element = document.getElementsByClassName('public-link__url')[0]
+
+  const clipboard = new ClipboardJS('.public-link__copy', {
+    text: trigger => {
+      const originalText = trigger.innerText
+      trigger.innerText = 'Copied'
+      setTimeout(() => trigger.innerText = originalText, 2000)
+      return element.href
+    }
+  })
+
+  clipboard.on('success', function(e) {
+    const selection = window.getSelection()
+    const range = document.createRange()
+    range.selectNodeContents(element)
+    selection.removeAllRanges()
+    selection.addRange(range)
+  })
+}
