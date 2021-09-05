@@ -394,5 +394,16 @@ module BarBack
 
       assert_text /id has already been taken/i
     end
+
+    test 'with missing from' do
+      visit root_path
+
+      fill_in "query_string", with: "SELECT 123 ONE"
+      fill_in "query_name", with: "select"
+      click_button "Save"
+
+      assert_text "123"
+      assert_text "ONE"
+    end
   end
 end
