@@ -161,7 +161,7 @@ module BarBack
 
       assert_text "write-query"
       assert_equal "User.destroy_all", page.find("textarea").value
-      assert_text /can only run read queries/i
+      assert_text /error/i
 
       fill_in "query_string", with: "DELETE FROM users"
       fill_in "query_name", with: "write-query-sql"
@@ -240,13 +240,6 @@ module BarBack
 
       find("label", text: "Public").click
 
-      #assert_button "Private"
-
-      find("label", text: "Private").click
-
-      #assert_button "Public"
-
-      find("label", text: "Public").click
       window = window_opened_by do
         click_link public_query_path(id: Query.last.id, uuid: Query.last.uuid)
       end
@@ -404,6 +397,34 @@ module BarBack
 
       assert_text "123"
       assert_text "ONE"
+    end
+
+    test 'with query error_messages' do
+      visit root_path
+
+      evaluate_script "document.getElementsByClassName('query-form__query-string')[0].required = false"
+      evaluate_script "document.getElementsByClassName('query-form__query-name')[0].required = false"
+      fill_in "query_string", with: ""
+      fill_in "query_name", with: ""
+      click_button "Save"
+
+      assert_text /error/i
+      assert_text /name can't be blank/i
+      assert_text /string can't be blank/i
+
+      fill_in "query_string", with: "SELECT 1"
+      fill_in "query_name", with: "select"
+      click_button "Save"
+
+      evaluate_script "document.getElementsByClassName('query-form__query-string')[0].required = false"
+      evaluate_script "document.getElementsByClassName('query-form__query-name')[0].required = false"
+      fill_in "query_string", with: ""
+      fill_in "query_name", with: ""
+      click_button "Save"
+
+      assert_text /error/i
+      assert_text /name can't be blank/i
+      assert_text /string can't be blank/i
     end
   end
 end

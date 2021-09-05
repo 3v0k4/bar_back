@@ -1,0 +1,23 @@
+<%= form_with url: public_query_path(id: query.id), method: :put, html: { onchange: "this.submit()", class: "visibility-form" } do |form| %>
+  <%= form.radio_button :visibility, "private", class: "visibility-form__button", disabled: !query.public? %>
+  <%= form.label :visibility_private, "Private", class: "visibility-form__label #{query.public? ? "visibility-form__label--selected" : "visibility-form__label--not-selected"}" %>
+  <%= form.radio_button :visibility, "public", class: "visibility-form__button", disabled: query.public? %>
+  <%= form.label :visibility_public, "Public", class: "visibility-form__label #{query.public? ? "visibility-form__label--not-selected" : "visibility-form__label--selected"}" %>
+  <%= form.submit "Update", class: "hidden" %>
+<% end %>
+
+<% if query.public? %>
+  <div class="public-link">
+    <div class="public-link__url-container">
+      <%= link_to public_query_path(id: query.id, uuid: query.uuid), public_query_path(id: query.id, uuid: query.uuid), target: '_blank', class: "public-link__url" %>
+    </div>
+    <button class="public-link__copy" data-clipboard-target=".public-link__url">Copy</button>
+  </div>
+
+<% else %>
+  <div class="public-link__explanation">
+    The result of the query is currently private.
+    <br />
+    You can generate a random public link to a read-only view.
+  </div>
+<% end %>

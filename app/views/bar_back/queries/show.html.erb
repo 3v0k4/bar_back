@@ -11,5 +11,9 @@
 <%= render "bar_back/queries/form", query: @query %>
 
 <div class="container">
-  <%= render "bar_back/queries/results", allow_writes?: true, query: @query, result: @result, error_messages: @error_messages %>
+  <% if @query.errors.any? %>
+    <%= render 'bar_back/root/errors', full_messages: @query.errors.full_messages %>
+  <% else %>
+    <%= render "bar_back/queries/results", allow_writes?: true, query: @query, result: @result, record: @record %>
+  <% end %>
 </div>

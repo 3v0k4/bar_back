@@ -1,21 +1,21 @@
-<div class="table__row">
-  <div class="table__column table__column--header">
+<div class="records__row">
+  <div class="records__column records__column--header">
     <% columns1.each do |column| %>
-      <div class="table__header"><%= column %></div>
+      <div class="records__header"><%= column %></div>
     <% end %>
   </div>
-  <div class="table__column table__column--data">
+  <div class="records__column records__column--data">
     <% if type == :create %>
       <% columns2.each do |column| %>
-        <%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]", class: "table__input" %>
+        <%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]", class: "records__input" %>
       <% end %>
     <% elsif type == :read %>
       <% columns2.each do |_column, value| %>
-        <span><%= value %></span>
+        <span class="records__data"><%= value %></span>
       <% end %>
     <% elsif type == :update %>
       <% columns2.each do |column, value| %>
-        <%= form.text_field column, value: value, id: "#{column}-#{columns2.fetch("id")}", name: "record_params[#{column}]", class: "table__input" %>
+        <%= form.text_field column, value: value, id: "#{column}-#{columns2.fetch("id")}", name: "record_params[#{column}]", class: "records__input" %>
       <% end %>
     <% end %>
   </div>

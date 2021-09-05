@@ -3,6 +3,7 @@ require_dependency "bar_back/application_controller"
 module BarBack
   class QueriesController < ApplicationController
     def show
+      @query = query
       @result = EvaluateQuery.new.call(query)
 
       respond_to do |format|
@@ -13,6 +14,7 @@ module BarBack
 
     def create
       @query = Query.new(query_params)
+
       if @query.save
         redirect_to query_path(id: @query.id)
       else
@@ -22,8 +24,14 @@ module BarBack
     end
 
     def update
-      query.update!(query_params)
-      redirect_to query_path(id: id)
+      @query = query
+
+      if @query.update(query_params)
+        redirect_to query_path(id: @query.id)
+      else
+        @result = EvaluateQuery.new.call(@query)
+        render 'bar_back/queries/show'
+      end
     end
 
     def destroy

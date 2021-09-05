@@ -55,7 +55,7 @@ module BarBack
     def rerender(record)
       @query = query
       @result = EvaluateQuery.new.call(@query)
-      @error_messages = record.errors.full_messages
+      @record = record
       render 'bar_back/queries/show'
     end
   end

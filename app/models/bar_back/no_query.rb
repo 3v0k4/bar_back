@@ -1,9 +1,5 @@
 module BarBack
   NoQuery = Class.new do
-    def present?
-      false
-    end
-
     def valid?
       true
     end

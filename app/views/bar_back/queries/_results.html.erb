@@ -1,10 +1,8 @@
-<div class="results">
-  <% if result.present? && result.invalid? %>
-    <h2>Error</h2>
-    <span class="results__error"><%= result.error_message %></span>
-  <% end %>
+<% if result.invalid? %>
+  <%= render 'bar_back/root/errors', full_messages: [result.error_message] %>
 
-  <% if result.present? && result.valid? %>
+<% else %>
+  <div class="results">
     <% if result.size.zero? %>
       <div class="results__header">
         <h2 class="results__heading">No Results</h2>
@@ -17,45 +15,14 @@
       </div>
 
       <% if local_assigns.fetch(:allow_writes?, false) %>
-        <%= form_with url: public_query_path(id: query.id), method: :put, html: { onchange: "this.submit()", class: "visibility-form" } do |form| %>
-          <%= form.radio_button :visibility, "private", class: "visibility-form__button", disabled: !query.public? %>
-          <%= form.label :visibility_private, "Private", class: "visibility-form__label #{query.public? ? "visibility-form__label--selected" : "visibility-form__label--not-selected"}" %>
-          <%= form.radio_button :visibility, "public", class: "visibility-form__button", disabled: query.public? %>
-          <%= form.label :visibility_public, "Public", class: "visibility-form__label #{query.public? ? "visibility-form__label--not-selected" : "visibility-form__label--selected"}" %>
-          <%= form.submit "Update", class: "hidden" %>
-        <% end %>
-
-        <% if query.public? %>
-          <div class="public-link">
-            <div class="public-link__url-container">
-              <%= link_to public_query_path(id: query.id, uuid: query.uuid), public_query_path(id: query.id, uuid: query.uuid), target: '_blank', class: "public-link__url" %>
-            </div>
-            <button class="public-link__copy" data-clipboard-target=".public-link__url">Copy</button>
-          </div>
-
-        <% else %>
-          <div class="public-link__explanation">
-            The result of the query is currently private.
-            <br />
-            You can generate a random public link to a read-only view.
-          </div>
-        <% end %>
+        <%= render 'bar_back/queries/visibility', query: query %>
       <% end %>
 
-      <% if error_messages.present? %>
-        Errors:
-        <ul>
-          <% error_messages.each do |error_message| %>
-            <li><%= error_message %></li>
-          <% end %>
-        </ul>
-      <% end %>
-
-      <%= render "bar_back/queries/result", result: result, allow_writes?: local_assigns.fetch(:allow_writes?, false) %>
+      <%= render "bar_back/queries/records", result: result, allow_writes?: local_assigns.fetch(:allow_writes?, false), query: query %>
     <% end %>
 
     <% if local_assigns.fetch(:allow_writes?, false) && result.active_record_class.present? %>
-      <% if result.present? && result.valid? && result.rows_with_columns.size.positive? %>
+      <% if result.rows_with_columns.size.positive? %>
         <div class="divider">
           <span class="divider__line"></span>
           <span class="divider__icon">X</span>
@@ -63,22 +30,7 @@
         </div>
       <% end %>
 
-      <%= form_with url: records_path, method: :post do |form| %>
-        <%= form.hidden_field :query_id, value: query.id %>
-        <div class="table__row">
-          <div class="table__column table__column--header">
-            <% result.columns.each do |column| %>
-              <div class="table__header"><%= column %></div>
-            <% end %>
-          </div>
-          <div class="table__column table__column--data">
-            <% result.columns.each do |column| %>
-              <%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]", class: "table__input" %>
-            <% end %>
-          </div>
-        </div>
-        <%= form.submit "Create", id: "create", class: "table__create" %>
-      <% end %>
+      <%= render 'bar_back/queries/create_record', query: query, result: result %>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>

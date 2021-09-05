@@ -355,32 +355,32 @@ input[type="text"], textarea {
   padding-bottom: $space-4;
 }
 
-.table {
+.records {
   margin-top: $space-4;
 }
 
-.table__row {
+.records__row {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
 }
 
-.table__column {
+.records__column {
   display: flex;
   flex-direction: column;
 }
 
-.table__column--header {
+.records__column--header {
   flex: 0;
   padding-right: 20px;
 }
 
-.table__column--data {
+.records__column--data {
   flex: 1;
 }
 
-.table__header {
+.records__header {
   @include mono;
   align-items: center;
   display: inline-flex;
@@ -392,12 +392,11 @@ input[type="text"], textarea {
   width: 100px;
 }
 
-.table__header:last-of-type {
+.records__header:last-of-type {
   margin-bottom: 0;
-  padding-bottom: 0;
 }
 
-.table__input {
+.records__input {
   background: $light-aubergine;
   border: 1px solid white;
   color: $ice;
@@ -408,12 +407,11 @@ input[type="text"], textarea {
   padding: 10px;
 }
 
-.table__input:last-of-type {
+.records__input:last-of-type {
   margin-bottom: 0;
-  padding-bottom: 0;
 }
 
-.table__data {
+.records__data {
   color: $ice;
   height: calc(#{$height} + 1px);
   margin-bottom: 22px;
@@ -422,12 +420,11 @@ input[type="text"], textarea {
   padding: 10px;
 }
 
-.table__data:last-of-type {
+.records__data:last-of-type {
   margin-bottom: 0;
-  padding-bottom: 0;
 }
 
-.table__create {
+.records__create {
   @include primary-button;
 }
 
@@ -464,4 +461,12 @@ input[type="text"], textarea {
 
 .footer__link {
   color: $ice;
+}
+
+.error {
+  margin-top: $space-4;
+}
+
+.error__message {
+  @include sans-serif;
 }

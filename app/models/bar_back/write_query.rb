@@ -1,9 +1,5 @@
 module BarBack
   WriteQuery = Struct.new(:error) do
-    def present?
-      true
-    end
-
     def valid?
       false
     end
@@ -13,7 +9,7 @@ module BarBack
     end
 
     def error_message
-      "can only run read queries: #{error.message}"
+      error.message
     end
 
     def rows

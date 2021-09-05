@@ -1,9 +1,5 @@
 module BarBack
   EmptyResult = Struct.new(:query) do
-    def present?
-      true
-    end
-
     def valid?
       true
     end

@@ -1,9 +1,5 @@
 module BarBack
   InvalidQuery = Struct.new(:error) do
-    def present?
-      true
-    end
-
     def valid?
       false
     end

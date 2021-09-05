@@ -3,7 +3,11 @@
 
   <p class="saved-queries__string"><%= @query.string %></p>
 
-  <%= render "bar_back/queries/results", query: @query, result: @result, error_messages: @error_messages %>
+  <% if @query.errors.any? %>
+    <%= render 'bar_back/root/errors', full_messages: @query.errors.full_messages %>
+  <% else %>
+    <%= render "bar_back/queries/results", query: @query, result: @result, record: @record %>
+  <% end %>
 </div>
 
 <footer class="footer">

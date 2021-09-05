@@ -1,9 +1,5 @@
 module BarBack
   ActiveRecordResult = Struct.new(:result, :query) do
-    def present?
-      true
-    end
-
     def valid?
       true
     end

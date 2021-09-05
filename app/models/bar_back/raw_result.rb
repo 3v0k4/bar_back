@@ -1,9 +1,5 @@
 module BarBack
   RawResult = Struct.new(:result) do
-    def present?
-      true
-    end
-
     def valid?
       true
     end

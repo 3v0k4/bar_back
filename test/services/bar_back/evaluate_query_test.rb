@@ -2,14 +2,6 @@ require "test_helper"
 
 module BarBack
   class EvaluateQueryTest < ActiveSupport::TestCase
-    test "with an empty query it returns an empty result" do
-      query = Query.new(string: "")
-
-      actual = EvaluateQuery.new.call(query)
-
-      assert_equal false, actual.present?
-    end
-
     test "with a valid ActiveRecord query it returns a result" do
       query = Query.new(string: "User.all")
 
