@@ -477,6 +477,30 @@ input[type="text"], textarea {
   width: 115px;
 }
 
-.logo--footer {
+.logo--bigger {
   width: 200px;
+}
+
+.logo--error {
+  width: 200px;
+  right: 20px;
+  transform: rotate(20deg) translate(0%, 0);
+  transform-origin: top left;
+}
+
+.not-found__logo-container {
+  margin-left: 30%;
+}
+
+.not-found__error {
+  @extend h2;
+  margin: $space-2 0 $space-4 0;
+}
+
+.not-found__explanation {
+  line-height: 2;
+}
+
+.not-found__link {
+  color: $ice;
 }

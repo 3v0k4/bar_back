@@ -1,5 +1,7 @@
 module BarBack
   class ApplicationController < ActionController::Base
+    rescue_from ActiveRecord::RecordNotFound, with: -> { render "bar_back/not_found/index" }
+
     before_action :authenticate, if: -> { BarBack.http_basic_enabled }
 
     private

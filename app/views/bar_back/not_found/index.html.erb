@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="not-found__logo-container">
+    <%= render "bar_back/logo", href: root_path, klass: "logo logo--error", target: nil %>
+  </div>
+
+  <h1 class="not-found__error">Page Not Found</h1>
+
+  <p class="not-found__explanation">
+    We called the developers, but they are drunk.
+    <br />
+    Go back <%= link_to "home", root_path, class: "not-found__link" %>.
+  </p>
+</div>
