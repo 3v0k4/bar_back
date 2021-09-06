@@ -4,6 +4,6 @@
   <%= form.submit "Create", id: "create", class: "records__create" %>
 <% end %>
 
-<% if !@record.nil? && @record.errors.any? %>
+<% if !@record&.persisted? && @record&.errors&.any? %>
   <%= render 'bar_back/root/errors', full_messages: @record.errors.full_messages %>
 <% end %>
