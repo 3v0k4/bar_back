@@ -5,6 +5,10 @@ module BarBack
   class Engine < ::Rails::Engine
     isolate_namespace BarBack
 
+    initializer "bar_back.assets.precompile" do |app|
+      app.config.assets.precompile += ["bar_back/logo.svg"]
+    end
+
     config.app_middleware.use(
       Rack::Static,
       urls: ["/packs", "/packs-test"], root: BarBack::Engine.root.join("public")

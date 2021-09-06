@@ -470,3 +470,13 @@ input[type="text"], textarea {
 .error__message {
   @include sans-serif;
 }
+
+.logo {
+  display: block;
+  margin: auto;
+  width: 115px;
+}
+
+.logo--footer {
+  width: 200px;
+}
