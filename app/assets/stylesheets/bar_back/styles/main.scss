@@ -56,6 +56,7 @@ body {
   min-width: $width;
   padding: 10px;
   text-decoration: none;
+  box-shadow: 0 0 5px $ice;
 }
 
 @mixin primary-button() {
@@ -213,21 +214,7 @@ input[type="text"], textarea {
 }
 
 .saved-queries__delete {
-  padding: $space-1;
-  height: $height;
-  background: none;
-  -webkit-appearance: none;
-  color: $ice;
-  border: 1px solid $ice;
-  min-width: $width;
-  border-radius: $border-radius;
-  cursor: pointer;
-  margin: $space-2 0;
-
-  &:hover, &:active {
-    background-color: $ice;
-    color: $aubergine;
-  }
+  @include secondary-button;
 }
 
 .divider {
