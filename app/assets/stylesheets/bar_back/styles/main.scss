@@ -22,6 +22,8 @@ $border-radius: 5px;
 $medium-breakpoint: 480px;
 $large-breakpoint: 768px;
 
+$blur: 5px;
+
 * {
   box-sizing: border-box;
 }
@@ -81,6 +83,17 @@ body {
     color: $aubergine;
     fill: $aubergine;
   }
+}
+
+@mixin neon-text() {
+  text-shadow: 1px 1px $blur $pink, -1px -1px $blur $pink, 1px -1px $blur $pink, -1px 1px $blur $pink;
+}
+
+.h1 {
+  @include neon-text();
+  @include sans-serif();
+  font-size: 2rem;
+  font-weight: lighter;
 }
 
 h2 {
@@ -492,6 +505,8 @@ input[type="text"], textarea {
 
 .not-found__error {
   @extend h2;
+  @include neon-text;
+  font-weight: lighter;
   margin: $space-2 0 $space-4 0;
 }
 
