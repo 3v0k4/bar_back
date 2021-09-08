@@ -352,6 +352,8 @@ module BarBack
       fill_in "query_name", with: "user-all"
       click_button "Save"
 
+      click_link "Create Record"
+
       fill_in "name-new", with: random_string
       click_button "create"
 
@@ -359,6 +361,8 @@ module BarBack
 
       fill_in "query_string", with: "SELECT * FROM users"
       click_button "Save"
+
+      click_link "Create Record"
 
       fill_in "name-new", with: random_string
       click_button "create"
@@ -376,11 +380,15 @@ module BarBack
       fill_in "query_name", with: "user-all"
       click_button "Save"
 
+      click_link "Create Record"
+
       fill_in "id-new", with: user1.id
       click_button "create"
 
       assert_equal 2, User.count
       assert_text /id has already been taken/i
+
+      click_link "Update Records"
 
       fill_in "id-#{user2.id}", with: user1.id
       click_button "update-#{user2.id}"

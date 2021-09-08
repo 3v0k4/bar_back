@@ -7,7 +7,6 @@ module BarBack
       @result = EvaluateQuery.new.call(query)
 
       respond_to do |format|
-        format.html
         format.csv { render_csv }
       end
     end
@@ -16,7 +15,7 @@ module BarBack
       @query = Query.new(query_params)
 
       if @query.save
-        redirect_to query_path(id: @query.id)
+        redirect_to query_records_path(query_id: @query.id)
       else
         @queries = Query.all
         render 'bar_back/root/index'
@@ -27,10 +26,10 @@ module BarBack
       @query = query
 
       if @query.update(query_params)
-        redirect_to query_path(id: @query.id)
+        redirect_to query_records_path(query_id: @query.id)
       else
         @result = EvaluateQuery.new.call(@query)
-        render 'bar_back/queries/show'
+        render 'bar_back/records/index'
       end
     end
 

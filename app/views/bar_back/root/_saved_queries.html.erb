@@ -16,7 +16,7 @@
 
         <li class="saved-queries__item">
           <div class="saved-queries__header">
-            <h3><%= link_to query.name, query_path(id: query.id), class: "saved-queries__name" %></h3>
+            <h3><%= link_to query.name, query_records_path(query_id: query.id), class: "saved-queries__name" %></h3>
             <span class="saved-queries__tag saved-queries__tag--<%= query.public? ? "public" : "private" %>">
               <i class="icon <%= query.public? ? "icon--eye" : "icon--lock" %>">
                 <% if query.public? %>

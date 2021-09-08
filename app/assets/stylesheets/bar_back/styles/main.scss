@@ -259,15 +259,12 @@ input[type="text"], textarea {
   justify-content: space-between;
 }
 
-.results__heading {
-  margin: 0;
-}
-
-.export {
+.control__label {
   @include secondary-button;
+  margin-left: $space-2;
 }
 
-.export__link {
+.control__link {
   text-decoration: none;
   color: inherit;
 }
@@ -529,6 +526,7 @@ input[type="text"], textarea {
   height: 20px;
   width: 25px;
   margin-right: 5px;
+  fill: inherit;
 
   svg {
     width: 100%;
@@ -545,6 +543,10 @@ input[type="text"], textarea {
   fill: $pink;
 }
 
-.icon--export {
-  fill: inherit;
+.icon--create {
+  height: 25px;
+}
+
+.results__controls {
+  display: flex;
 }

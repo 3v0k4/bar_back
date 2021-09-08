@@ -14,6 +14,6 @@
   <% if @query.errors.any? %>
     <%= render 'bar_back/root/errors', full_messages: @query.errors.full_messages %>
   <% else %>
-    <%= render "bar_back/queries/results", allow_writes?: true, query: @query, result: @result, record: @record %>
+    <%= render "bar_back/queries/results", for: @for, allow_writes?: true, query: @query, result: @result, record: @record %>
   <% end %>
 </div>

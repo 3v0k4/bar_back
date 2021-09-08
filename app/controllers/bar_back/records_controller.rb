@@ -2,13 +2,26 @@ require_dependency "bar_back/application_controller"
 
 module BarBack
   class RecordsController < ApplicationController
+    def index
+      @query = query
+      @result = EvaluateQuery.new.call(query)
+      @for = :index
+    end
+
+    def new
+      @query = query
+      @result = EvaluateQuery.new.call(query)
+      @for = :new
+      render 'bar_back/records/index'
+    end
+
     def create
       record = active_record_class.new(record_params)
 
       if record.save
-        redirect_to query_path(id: query_id)
+        redirect_to query_records_path(query_id: query_id)
       else
-        rerender(record)
+        rerender(record, :new)
       end
     end
 
@@ -16,15 +29,15 @@ module BarBack
       record = active_record_class.find(id)
 
       if record.update(record_params)
-        redirect_to query_path(id: query_id)
+        redirect_to query_records_path(query_id: query_id)
       else
-        rerender(record)
+        rerender(record, :index)
       end
     end
 
     def destroy
       active_record_class.find(id).destroy!
-      redirect_to query_path(id: query_id)
+      redirect_to query_records_path(query_id: query_id)
     end
 
     private
@@ -52,11 +65,12 @@ module BarBack
         .filter { |key| active_record_class.column_names.include?(key) }
     end
 
-    def rerender(record)
+    def rerender(record, for_)
       @query = query
       @result = EvaluateQuery.new.call(@query)
       @record = record
-      render 'bar_back/queries/show'
+      @for = for_
+      render 'bar_back/records/index'
     end
   end
 end
