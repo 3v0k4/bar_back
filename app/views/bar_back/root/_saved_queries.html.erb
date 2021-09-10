@@ -7,11 +7,7 @@
     <ul>
       <% @queries.each_with_index do |query, i| %>
         <% if i != 0 %>
-          <div class="divider">
-            <span class="divider__line"></span>
-            <span class="divider__icon">X</span>
-            <span class="divider__line"></span>
-          </div>
+          <%= render 'bar_back/divider' %>
         <% end %>
 
         <li class="saved-queries__item">

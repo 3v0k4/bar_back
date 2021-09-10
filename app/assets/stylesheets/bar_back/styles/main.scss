@@ -547,6 +547,10 @@ input[type="text"], textarea {
   height: 25px;
 }
 
+.icon--divider {
+  fill: $light-aubergine;
+}
+
 .results__controls {
   display: flex;
 }

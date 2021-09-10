@@ -1,11 +1,7 @@
 <div class="records">
   <% result.rows_with_columns.each_with_index do |row_with_columns, i| %>
     <% if i != 0 %>
-      <div class="divider">
-        <span class="divider__line"></span>
-        <span class="divider__icon">X</span>
-        <span class="divider__line"></span>
-      </div>
+      <%= render 'bar_back/divider' %>
     <% end %>
 
     <% if local_assigns.fetch(:allow_writes?, false) && row_with_columns.key?("id") && result.active_record_class.present? %>
