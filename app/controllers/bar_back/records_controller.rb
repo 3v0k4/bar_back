@@ -5,6 +5,7 @@ module BarBack
     def index
       @query = query
       @result = EvaluateQuery.new.call(query)
+      @record = Record.new(nil)
       @for = :index
     end
 
@@ -12,6 +13,7 @@ module BarBack
       @query = query
       @result = EvaluateQuery.new.call(query)
       @for = :new
+      @record = Record.new(nil)
       render 'bar_back/records/index'
     end
 
@@ -68,7 +70,7 @@ module BarBack
     def rerender(record, for_)
       @query = query
       @result = EvaluateQuery.new.call(@query)
-      @record = record
+      @record = Record.new(record)
       @for = for_
       render 'bar_back/records/index'
     end

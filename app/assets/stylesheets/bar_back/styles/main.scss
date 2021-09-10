@@ -4,6 +4,7 @@ $ice: #F8F8F8;
 $dark-ice: #D7D7D7;
 $pink: #E6A5FF;
 $dark-pink: #BE8ACF;
+$purple: #D04A8B;
 
 $space-1: 10px;
 $space-2: 20px;
@@ -399,6 +400,10 @@ input[type="text"], textarea {
   width: 100px;
 }
 
+.records__header--error {
+  margin-top: calc(#{$margin-top} + 15px);
+}
+
 .records__header:last-of-type {
   margin-bottom: 0;
 }
@@ -412,6 +417,15 @@ input[type="text"], textarea {
   margin-top: $margin-top;
   max-width: 400px;
   padding: 10px;
+}
+
+.records__input--error {
+  background: $purple;
+}
+
+.records__error {
+  @include sans-serif;
+  font-size: 0.8rem;
 }
 
 .records__input:last-of-type {

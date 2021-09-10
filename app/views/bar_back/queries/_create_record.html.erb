@@ -3,7 +3,3 @@
   <%= render 'bar_back/table', type: :create, columns1: result.columns, columns2: result.columns, form: form %>
   <%= form.submit "Create", id: "create", class: "records__create" %>
 <% end %>
-
-<% if !@record&.persisted? && @record&.errors&.any? %>
-  <%= render 'bar_back/root/errors', full_messages: @record.errors.full_messages %>
-<% end %>

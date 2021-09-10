@@ -386,14 +386,14 @@ module BarBack
       click_button "create"
 
       assert_equal 2, User.count
-      assert_text /id has already been taken/i
+      assert_text /has already been taken/i
 
       click_link "Update Records"
 
       fill_in "id-#{user2.id}", with: user1.id
       click_button "update-#{user2.id}"
 
-      assert_text /id has already been taken/i
+      assert_text /has already been taken/i
     end
 
     test 'with missing from' do

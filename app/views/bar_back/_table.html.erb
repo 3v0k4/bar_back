@@ -1,13 +1,18 @@
 <div class="records__row">
   <div class="records__column records__column--header">
     <% columns1.each do |column| %>
-      <div class="records__header"><%= column %></div>
+      <div class="records__header <%= @record.error_for(column).present? ? "records__header--error" : "" %>">
+        <%= column %>
+      </div>
     <% end %>
   </div>
   <div class="records__column records__column--data">
     <% if type == :create %>
       <% columns2.each do |column| %>
-        <%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]", class: "records__input" %>
+        <% if @record.error_for(column).present? %>
+          <span class="records__error"><%= @record.error_for(column) %></span>
+        <% end %>
+        <%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]", class: "records__input #{@record.error_for(column).present? ? "records__input--error" : ""}", value: @record.send(column) %>
       <% end %>
     <% elsif type == :read %>
       <% columns2.each do |_column, value| %>
@@ -15,7 +20,10 @@
       <% end %>
     <% elsif type == :update %>
       <% columns2.each do |column, value| %>
-        <%= form.text_field column, value: value, id: "#{column}-#{columns2.fetch("id")}", name: "record_params[#{column}]", class: "records__input" %>
+        <% if columns2.fetch("id") == @record.id && @record.error_for(column).present? %>
+          <span class="records__error"><%= @record.error_for(column) %></span>
+        <% end %>
+        <%= form.text_field column, value: value, id: "#{column}-#{columns2.fetch("id")}", name: "record_params[#{column}]", class: "records__input #{(columns2.fetch("id") == @record.id && @record.error_for(column).present?) ? "records__input--error" : ""}" %>
       <% end %>
     <% end %>
   </div>

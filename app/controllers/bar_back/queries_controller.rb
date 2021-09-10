@@ -29,6 +29,7 @@ module BarBack
         redirect_to query_records_path(query_id: @query.id)
       else
         @result = EvaluateQuery.new.call(@query)
+        @record = Record.new(nil)
         render 'bar_back/records/index'
       end
     end

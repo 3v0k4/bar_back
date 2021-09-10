@@ -7,6 +7,7 @@ module BarBack
     def show
       @query = Query.find_by!(uuid: uuid)
       @result = EvaluateQuery.new.call(@query)
+      @record = Record.new(nil)
     end
 
     def update
