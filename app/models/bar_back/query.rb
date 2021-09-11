@@ -35,11 +35,14 @@ module BarBack
     end
 
     def class_from_sql_query
-      tokens = string.split(" ")
-      from_index = tokens.index { |token| Regexp.new(/from/i).match?(token) }
-      return if from_index.nil?
-      candidate = tokens[from_index + 1].singularize.capitalize
-      cast(candidate)
+      matches = /from\s(\w+).*/i.match(string)
+      return if matches.nil?
+      matches
+        .captures
+        .first
+        .singularize
+        .camelize
+        .yield_self { |string| cast(string) }
     end
 
     def cast(string)
