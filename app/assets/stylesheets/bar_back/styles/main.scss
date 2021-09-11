@@ -442,10 +442,6 @@ input[type="text"], textarea {
   max-width: 400px;
 }
 
-.records__data:last-of-type {
-  margin-bottom: 0;
-}
-
 .records__create {
   @include primary-button;
 }

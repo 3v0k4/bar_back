@@ -75,8 +75,8 @@ module BarBack
       assert_text "user-all"
       assert_equal "User.all", page.find("textarea").value
       assert_text "id"
-      assert_xpath ".//input[@value=#{user_1.id}]"
-      assert_xpath ".//input[@value=#{user_2.id}]"
+      assert_text user_1.id
+      assert_text user_2.id
       assert_text "name"
       assert_xpath ".//input[@value='#{user_1.name}']"
       assert_xpath ".//input[@value='#{user_2.name}']"
@@ -94,8 +94,8 @@ module BarBack
       assert_text "user-all-sql"
       assert_equal "SELECT * FROM users", page.find("textarea").value
       assert_text "id"
-      assert_xpath ".//input[@value=#{user_1.id}]"
-      assert_xpath ".//input[@value=#{user_2.id}]"
+      assert_text user_1.id
+      assert_text user_2.id
       assert_text "name"
       assert_xpath ".//input[@value='#{user_1.name}']"
       assert_xpath ".//input[@value='#{user_2.name}']"
@@ -113,7 +113,7 @@ module BarBack
       assert_text "user-first"
       assert_equal "User.first", page.find("textarea").value
       assert_text "id"
-      assert_xpath ".//input[@value=#{user_1.id}]"
+      assert_text user_1.id
       assert_text "name"
       assert_xpath ".//input[@value='#{user_1.name}']"
       assert_text "created_at"
@@ -278,8 +278,6 @@ module BarBack
       fill_in "query_name", with: "user-all"
       click_button "Save"
 
-      new_id = random_int
-      fill_in "id-#{user.id}", with: new_id
       new_name = random_string
       fill_in "name-#{user.id}", with: new_name
       new_created_at = random_time
@@ -290,7 +288,6 @@ module BarBack
       click_button "update-#{user.id}"
 
       user = User.first
-      assert_equal new_id, user.id
       assert_equal new_name, user.name
       assert_equal new_created_at.to_i, user.created_at.to_i
       assert_equal new_updated_at.to_i, user.updated_at.to_i
@@ -298,8 +295,6 @@ module BarBack
       fill_in "query_string", with: "SELECT * FROM users"
       click_button "Save"
 
-      new_id = random_int
-      fill_in "id-#{user.id}", with: new_id
       new_name = random_string
       fill_in "name-#{user.id}", with: new_name
       new_created_at = random_time
@@ -310,7 +305,6 @@ module BarBack
       click_button "update-#{user.id}"
 
       user = User.first
-      assert_equal new_id, user.id
       assert_equal new_name, user.name
       assert_equal new_created_at.to_i, user.created_at.to_i
       assert_equal new_updated_at.to_i, user.updated_at.to_i
@@ -371,8 +365,7 @@ module BarBack
     end
 
     test "shows error on create and update" do
-      user1 = create_user!
-      user2 = create_user!
+      user = create_user!
 
       visit root_path
 
@@ -382,18 +375,18 @@ module BarBack
 
       click_link "Create Record"
 
-      fill_in "id-new", with: user1.id
+      fill_in "name-new", with: "invalid"
       click_button "create"
 
-      assert_equal 2, User.count
-      assert_text /has already been taken/i
+      assert_equal 1, User.count
+      assert_text /cannot be invalid/i
 
       click_link "Update Records"
 
-      fill_in "id-#{user2.id}", with: user1.id
-      click_button "update-#{user2.id}"
+      fill_in "name-#{user.id}", with: "invalid"
+      click_button "update-#{user.id}"
 
-      assert_text /has already been taken/i
+      assert_text /cannot be invalid/i
     end
 
     test 'with missing from' do
