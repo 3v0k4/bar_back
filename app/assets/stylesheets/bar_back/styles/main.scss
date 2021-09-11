@@ -493,10 +493,29 @@ input[type="text"], textarea {
   display: block;
   margin: auto;
   width: 115px;
+
+  @media (prefers-reduced-motion: no-preference) {
+    &:hover {
+      animation: flicker 3s infinite step-end;
+    }
+  }
 }
 
 .logo--bigger {
   width: 200px;
+}
+
+@keyframes flicker {
+  0%    { opacity: 1; }
+  3%    { opacity: 0.4; }
+  6%    { opacity: 1; }
+  7%    { opacity: 0.4; }
+  8%    { opacity: 1; }
+  9%    { opacity: 0.4; }
+  10%   { opacity: 1; }
+  89%   { opacity: 1; }
+  90%   { opacity: 0.4; }
+  100%  { opacity: 0.4; }
 }
 
 .logo--error {
@@ -504,6 +523,10 @@ input[type="text"], textarea {
   right: 20px;
   transform: rotate(20deg) translate(0%, 0);
   transform-origin: top left;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: flicker 3s infinite step-end;
+  }
 }
 
 .not-found__logo-container {
