@@ -429,5 +429,29 @@ module BarBack
       assert_text /name can't be blank/i
       assert_text /string can't be blank/i
     end
+
+    test "with custom primary_key" do
+      user = create_user_with_uid!
+
+      visit root_path
+
+      fill_in "query_string", with: "UserWithUid.all"
+      fill_in "query_name", with: "all"
+      click_button "Save"
+
+      assert_text user.uid
+      assert_xpath ".//input[@value='#{user.name}']"
+      assert_xpath ".//input[@value='#{user.created_at}']"
+      assert_xpath ".//input[@value='#{user.updated_at}']"
+
+      click_link "Create Record"
+
+      fill_in "name-new", with: random_string
+      fill_in "created_at-new", with: random_time
+      fill_in "updated_at-new", with: random_time
+      click_button "create"
+
+      assert_equal 2, UserWithUid.count
+    end
   end
 end

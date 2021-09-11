@@ -28,6 +28,10 @@ module BarBack
       query.active_record_class
     end
 
+    def primary_key
+      active_record_class.primary_key
+    end
+
     def size
       rows.size
     end

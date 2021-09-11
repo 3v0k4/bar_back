@@ -14,7 +14,7 @@
           <span class="records__error"><%= @record.error_for(column) %></span>
         <% end %>
 
-        <%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]", class: "records__input #{@record.error_for(column).present? ? "records__input--error" : ""}", value: @record.send(column) %>
+        <%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]", class: "records__input #{@record.error_for(column).present? ? "records__input--error" : ""}", value: @record.public_send(column) %>
       <% end %>
 
     <% elsif type == :read %>
@@ -24,14 +24,14 @@
 
     <% elsif type == :update %>
       <% row_with_columns.each do |column, value| %>
-        <% if column == "id" %>
+        <% if column == result.primary_key %>
           <span class="records__data"><%= value %></span>
 
         <% else %>
-          <% if row_with_columns.fetch("id") == @record.id && @record.error_for(column).present? %>
+          <% if row_with_columns.fetch(result.primary_key) == @record.public_send(result.primary_key) && @record.error_for(column).present? %>
             <span class="records__error"><%= @record.error_for(column) %></span>
           <% end %>
-          <%= form.text_field column, value: (row_with_columns.fetch("id") == @record.id && @record.error_for(column).present?) ? @record.send(column) : value, id: "#{column}-#{row_with_columns.fetch("id")}", name: "record_params[#{column}]", class: "records__input #{(row_with_columns.fetch("id") == @record.id && @record.error_for(column).present?) ? "records__input--error" : ""}" %>
+          <%= form.text_field column, value: (row_with_columns.fetch(result.primary_key) == @record.public_send(result.primary_key) && @record.error_for(column).present?) ? @record.public_send(column) : value, id: "#{column}-#{row_with_columns.fetch(result.primary_key)}", name: "record_params[#{column}]", class: "records__input #{(row_with_columns.fetch(result.primary_key) == @record.public_send(result.primary_key) && @record.error_for(column).present?) ? "records__input--error" : ""}" %>
         <% end %>
       <% end %>
     <% end %>

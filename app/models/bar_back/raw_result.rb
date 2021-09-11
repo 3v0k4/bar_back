@@ -24,6 +24,10 @@ module BarBack
       nil
     end
 
+    def primary_key
+      ""
+    end
+
     def size
       1
     end

@@ -19,6 +19,10 @@ def create_user!
   User.create!(name: random_string)
 end
 
+def create_user_with_uid!
+  UserWithUid.create!(name: random_string)
+end
+
 def random_string
   SecureRandom.alphanumeric
 end

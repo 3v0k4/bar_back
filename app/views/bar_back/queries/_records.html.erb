@@ -4,15 +4,15 @@
       <%= render 'bar_back/divider' %>
     <% end %>
 
-    <% if local_assigns.fetch(:allow_writes?, false) && row_with_columns.key?("id") && result.active_record_class.present? %>
-      <%= form_with url: records_path(anchor: "update-#{row_with_columns.fetch("id")}"), method: :put, id: "update-#{row_with_columns.fetch("id")}" do |form| %>
-        <%= form.hidden_field :id_, value: row_with_columns.fetch("id")  %>
+    <% if local_assigns.fetch(:allow_writes?, false) && row_with_columns.key?(result.primary_key) && result.active_record_class.present? %>
+      <%= form_with url: records_path(anchor: "update-#{row_with_columns.fetch(result.primary_key)}"), method: :put, id: "update-#{row_with_columns.fetch(result.primary_key)}" do |form| %>
+        <%= form.hidden_field :id_, value: row_with_columns.fetch(result.primary_key)  %>
         <%= form.hidden_field :query_id, value: query.id %>
-        <%= render 'bar_back/table', type: :update, columns: result.columns, row_with_columns: row_with_columns, form: form %>
+        <%= render 'bar_back/table', type: :update, columns: result.columns, row_with_columns: row_with_columns, result: result, form: form %>
 
         <div class="result__controls">
-          <span><%= link_to "Delete", records_path(id_: row_with_columns.fetch("id"), query_id: query.id), id: "delete-#{row_with_columns.fetch("id")}", data: { confirm: "Are you sure?" }, method: :delete, class: "result__delete" %></span>
-          <span><%= form.submit "Update", id: "update-#{row_with_columns.fetch("id")}", class: "result__update" %></span>
+          <span><%= link_to "Delete", records_path(id_: row_with_columns.fetch(result.primary_key), query_id: query.id), id: "delete-#{row_with_columns.fetch(result.primary_key)}", data: { confirm: "Are you sure?" }, method: :delete, class: "result__delete" %></span>
+          <span><%= form.submit "Update", id: "update-#{row_with_columns.fetch(result.primary_key)}", class: "result__update" %></span>
         </div>
       <% end %>
 

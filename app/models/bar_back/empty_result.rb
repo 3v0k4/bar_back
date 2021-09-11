@@ -31,5 +31,9 @@ module BarBack
     def size
       rows.size
     end
+
+    def primary_key
+      ""
+    end
   end
 end
