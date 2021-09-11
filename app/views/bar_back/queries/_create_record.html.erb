@@ -1,5 +1,5 @@
 <%= form_with url: records_path, method: :post do |form| %>
   <%= form.hidden_field :query_id, value: query.id %>
-  <%= render 'bar_back/table', type: :create, columns1: result.columns, columns2: result.columns, form: form %>
+  <%= render 'bar_back/table', type: :create, columns: result.columns, form: form %>
   <%= form.submit "Create", id: "create", class: "records__create" %>
 <% end %>

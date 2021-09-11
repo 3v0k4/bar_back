@@ -8,7 +8,7 @@
       <%= form_with url: records_path(anchor: "update-#{row_with_columns.fetch("id")}"), method: :put, id: "update-#{row_with_columns.fetch("id")}" do |form| %>
         <%= form.hidden_field :id_, value: row_with_columns.fetch("id")  %>
         <%= form.hidden_field :query_id, value: query.id %>
-        <%= render 'bar_back/table', type: :update, columns1: result.columns, columns2: row_with_columns, form: form %>
+        <%= render 'bar_back/table', type: :update, columns: result.columns, row_with_columns: row_with_columns, form: form %>
 
         <div class="result__controls">
           <span><%= link_to "Delete", records_path(id_: row_with_columns.fetch("id"), query_id: query.id), id: "delete-#{row_with_columns.fetch("id")}", data: { confirm: "Are you sure?" }, method: :delete, class: "result__delete" %></span>
@@ -17,7 +17,7 @@
       <% end %>
 
     <% else %>
-      <%= render 'bar_back/table', type: :read, columns1: result.columns, columns2: row_with_columns %>
+      <%= render 'bar_back/table', type: :read, columns: result.columns, row_with_columns: row_with_columns %>
     <% end %>
   <% end %>
 </div>

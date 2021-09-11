@@ -1,6 +1,6 @@
 <div class="records__row">
   <div class="records__column records__column--header">
-    <% columns1.each do |column| %>
+    <% columns.each do |column| %>
       <div class="records__header <%= @record.error_for(column).present? ? "records__header--error" : "" %>">
         <%= column %>
       </div>
@@ -8,22 +8,22 @@
   </div>
   <div class="records__column records__column--data">
     <% if type == :create %>
-      <% columns2.each do |column| %>
+      <% columns.each do |column| %>
         <% if @record.error_for(column).present? %>
           <span class="records__error"><%= @record.error_for(column) %></span>
         <% end %>
         <%= form.text_field column, id: "#{column}-new", name: "record_params[#{column}]", class: "records__input #{@record.error_for(column).present? ? "records__input--error" : ""}", value: @record.send(column) %>
       <% end %>
     <% elsif type == :read %>
-      <% columns2.each do |_column, value| %>
+      <% row_with_columns.each do |_column, value| %>
         <span class="records__data"><%= value %></span>
       <% end %>
     <% elsif type == :update %>
-      <% columns2.each do |column, value| %>
-        <% if columns2.fetch("id") == @record.id && @record.error_for(column).present? %>
+      <% row_with_columns.each do |column, value| %>
+        <% if row_with_columns.fetch("id") == @record.id && @record.error_for(column).present? %>
           <span class="records__error"><%= @record.error_for(column) %></span>
         <% end %>
-        <%= form.text_field column, value: value, id: "#{column}-#{columns2.fetch("id")}", name: "record_params[#{column}]", class: "records__input #{(columns2.fetch("id") == @record.id && @record.error_for(column).present?) ? "records__input--error" : ""}" %>
+        <%= form.text_field column, value: value, id: "#{column}-#{row_with_columns.fetch("id")}", name: "record_params[#{column}]", class: "records__input #{(row_with_columns.fetch("id") == @record.id && @record.error_for(column).present?) ? "records__input--error" : ""}" %>
       <% end %>
     <% end %>
   </div>
