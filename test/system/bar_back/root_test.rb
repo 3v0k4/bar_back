@@ -380,6 +380,7 @@ module BarBack
 
       assert_equal 1, User.count
       assert_text /cannot be invalid/i
+      assert_xpath ".//input[@value='invalid']"
 
       click_link "Update Records"
 
@@ -387,6 +388,7 @@ module BarBack
       click_button "update-#{user.id}"
 
       assert_text /cannot be invalid/i
+      assert_xpath ".//input[@value='invalid']"
     end
 
     test 'with missing from' do
