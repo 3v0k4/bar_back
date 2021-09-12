@@ -297,6 +297,7 @@ input[type="text"], textarea {
   background: none;
   border: 1px solid $ice;
   border-right: none;
+  box-shadow: 0 0 5px $ice;
   cursor: pointer;
   display: flex;
   height: $height;
@@ -337,6 +338,7 @@ input[type="text"], textarea {
   align-items: center;
   border-radius: $border-radius 0 0 $border-radius;
   border: 1px solid white;
+  box-shadow: 0 0 5px $ice;
   display: flex;
   flex: 1 1 auto;
   height: $height;
