@@ -13,7 +13,7 @@ module BarBack
     end
 
     def columns
-      Array(result).first&.attribute_names || []
+      (rows_with_columns.first || {}).keys
     end
 
     def rows
@@ -21,7 +21,13 @@ module BarBack
     end
 
     def rows_with_columns
-      Array(result).map(&:attributes)
+      Array(result)
+        .map(&:attributes)
+        .map do |attributes|
+          primary_key_value = attributes.fetch(primary_key, nil)
+          next attributes unless primary_key_value.nil?
+          attributes.reject { |attribute| attribute == primary_key }
+        end
     end
 
     def active_record_class
