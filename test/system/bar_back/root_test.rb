@@ -241,6 +241,34 @@ module BarBack
       find("label", text: "Public").click
 
       window = window_opened_by do
+        find('a', class: 'public-link__url').click
+      end
+
+      within_window(window) do
+        assert_text Query.last.name
+        assert_text Query.last.string
+        assert_text /results \(1\)/i
+        assert_text "User.all"
+        assert_text "id"
+        assert_text user.id
+        assert_text "name"
+        assert_text user.name
+        assert_text "created_at"
+        assert_text user.created_at
+        assert_text "updated_at"
+        assert_text user.updated_at
+
+        click_link "Export CSV"
+        sleep 1
+
+        expected = <<~CSV
+          id,name,created_at,updated_at
+          #{user.id},#{user.name},#{user.created_at},#{user.updated_at}
+        CSV
+        assert_equal expected, File.read("#{DOWNLOAD_PATH}/#{Query.last.name}.csv")
+      end
+
+      window = window_opened_by do
         click_link public_query_path(id: Query.last.id, uuid: Query.last.uuid)
       end
 
@@ -265,7 +293,7 @@ module BarBack
           id,name,created_at,updated_at
           #{user.id},#{user.name},#{user.created_at},#{user.updated_at}
         CSV
-        assert_equal expected, File.read("#{DOWNLOAD_PATH}/user-all.csv")
+        assert_equal expected, File.read("#{DOWNLOAD_PATH}/#{Query.last.name}.csv")
       end
     end
 
