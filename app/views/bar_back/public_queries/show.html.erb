@@ -6,7 +6,7 @@
   <% if @query.errors.any? %>
     <%= render 'bar_back/root/errors', full_messages: @query.errors.full_messages %>
   <% else %>
-    <%= render "bar_back/queries/results", query: @query, result: @result, record: @record %>
+    <%= render "bar_back/queries/results", query: @query, result: @result, record: @record, csv_path: public_query_path(id: @query.id, uuid: @query.uuid, format: "csv") %>
   <% end %>
 </div>
 

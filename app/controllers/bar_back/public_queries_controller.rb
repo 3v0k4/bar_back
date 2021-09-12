@@ -8,6 +8,10 @@ module BarBack
       @query = Query.find_by!(uuid: uuid)
       @result = EvaluateQuery.new.call(@query)
       @record = Record.new(nil)
+      respond_to do |format|
+        format.html { render 'bar_back/public_queries/show' }
+        format.csv { render_csv }
+      end
     end
 
     def update
@@ -28,6 +32,15 @@ module BarBack
 
     def uuid
       @uuid ||= params.fetch(:uuid)
+    end
+
+    def render_csv
+      send_data(
+        EvaluateQueryToCsvString.new.call(query),
+        type: "text/csv; charset=utf-8; header=present",
+        disposition: "attachment; filename=#{query.name}.csv",
+        filename: "#{query.name}.csv"
+      )
     end
   end
 end
