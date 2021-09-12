@@ -13,7 +13,7 @@
       <% end %>
 
       <% if local_assigns.fetch(:for, :index) == :new %>
-        <h2>Create <%= query.active_record_class %></h2>
+        <h2>Create <%= query.active_record_class.to_s.underscore %></h2>
       <% end %>
 
       <div class="results__controls">
