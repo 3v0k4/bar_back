@@ -482,18 +482,6 @@ module BarBack
       assert_equal 2, UserWithUid.count
     end
 
-    test "display explanation to update or delete single records" do
-      create_user!
-
-      visit root_path
-
-      fill_in "query_string", with: "User.select(:name)"
-      fill_in "query_name", with: "names"
-      click_button "Save"
-
-      assert_text /If you want to update or delete single records/i
-    end
-
     test "it shows an error that is not on a selected field" do
       user = create_user_with_uid!
 
@@ -513,6 +501,44 @@ module BarBack
       click_button "create"
 
       assert_text /base error message/i
+    end
+
+    test "when primary_key is not selected the create button is not shown and an explanation is displayed" do
+      create_user!
+
+      visit root_path
+
+      fill_in "query_string", with: "User.select(:name)"
+      fill_in "query_name", with: "names"
+      click_button "Save"
+
+      assert_text /If you want to update or delete single records/i
+      assert_no_text "Create Record"
+    end
+
+    test "when only the primary_key is selected the create button is not shown" do
+      create_user!
+
+      visit root_path
+
+      fill_in "query_string", with: "User.select(:id)"
+      fill_in "query_name", with: "names"
+      click_button "Save"
+
+      assert_no_text "Create Record"
+    end
+
+    test "when primary_key is selected with an updatable field the create button is shown and the explanation not" do
+      create_user!
+
+      visit root_path
+
+      fill_in "query_string", with: "User.select(:id, :name)"
+      fill_in "query_name", with: "names"
+      click_button "Save"
+
+      assert_no_text /If you want to update or delete single records/i
+      assert_text "Create Record"
     end
   end
 end

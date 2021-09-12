@@ -35,5 +35,9 @@ module BarBack
     def primary_key
       ""
     end
+
+    def has_fields_to_update?
+      query.has_fields_to_update?
+    end
   end
 end

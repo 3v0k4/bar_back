@@ -31,5 +31,9 @@ module BarBack
     def size
       1
     end
+
+    def has_fields_to_update?
+      false
+    end
   end
 end

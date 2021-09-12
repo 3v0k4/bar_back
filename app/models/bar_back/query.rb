@@ -27,7 +27,37 @@ module BarBack
       !uuid.nil?
     end
 
+    def has_fields_to_update?
+      return false unless active_record_class.present?
+      select_values = active_record? ? active_record_select_values : sql_select_values
+      select_values.size.zero? ||
+        (select_values.size >= 2 && select_values.include?(active_record_class.primary_key))
+    end
+
     private
+
+    def active_record_select_values
+      result = eval(string)
+      if result.respond_to?(:select_values)
+        result.select_values.map(&:to_s)
+      elsif result.respond_to?(:attributes)
+        result.attributes.keys
+      else
+        []
+      end
+    rescue Exception
+      []
+    end
+
+    def sql_select_values
+      match = /select\s+(.+)\s+from/i.match(string)
+      return [] if match.nil?
+      match
+        .captures
+        .first
+        .split(/\s*,\s*/)
+        .filter { |x| x != "*" }
+    end
 
     def class_from_active_record_query
       candidate = string.split('.').first || ""

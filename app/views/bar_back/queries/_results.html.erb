@@ -17,7 +17,7 @@
       <% end %>
 
       <div class="results__controls">
-        <% if local_assigns.fetch(:allow_writes?, false) && local_assigns.fetch(:for, :index) == :index %>
+        <% if local_assigns.fetch(:allow_writes?, false) && local_assigns.fetch(:for, :index) == :index && result.has_fields_to_update? %>
           <%= link_to new_query_record_path(query_id: query.id), class: "control__link" do %>
             <span class="control__label">
               <i class="icon icon--create">
@@ -54,10 +54,13 @@
       <%= render 'bar_back/queries/visibility', query: query %>
     <% end %>
 
-    <% if local_assigns.fetch(:for, :index) == :index && result.size.positive? %>
+    <% if local_assigns.fetch(:for, :index) == :index && !result.has_fields_to_update? %>
       <div class="public-link__explanation">
         If you want to update or delete single records, you need to query a table that has an ActiveRecord model and include the primary key in the SELECT.
       </div>
+    <% end %>
+
+    <% if local_assigns.fetch(:for, :index) == :index && result.size.positive? %>
       <%= render "bar_back/queries/records", result: result, allow_writes?: local_assigns.fetch(:allow_writes?, false), query: query %>
     <% end %>
 

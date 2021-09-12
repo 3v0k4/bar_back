@@ -35,5 +35,9 @@ module BarBack
     def size
       rows.size
     end
+
+    def has_fields_to_update?
+      query.has_fields_to_update?
+    end
   end
 end
