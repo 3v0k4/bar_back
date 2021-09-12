@@ -481,5 +481,17 @@ module BarBack
 
       assert_equal 2, UserWithUid.count
     end
+
+    test "display explanation to update or delete single records" do
+      create_user!
+
+      visit root_path
+
+      fill_in "query_string", with: "User.select(:name)"
+      fill_in "query_name", with: "names"
+      click_button "Save"
+
+      assert_text /If you want to update or delete single records/i
+    end
   end
 end

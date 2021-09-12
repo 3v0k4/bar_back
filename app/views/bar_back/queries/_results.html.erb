@@ -55,6 +55,9 @@
     <% end %>
 
     <% if local_assigns.fetch(:for, :index) == :index && result.size.positive? %>
+      <div class="public-link__explanation">
+        If you want to update or delete single records, you need to query a table that has an ActiveRecord model and include the primary key in the SELECT.
+      </div>
       <%= render "bar_back/queries/records", result: result, allow_writes?: local_assigns.fetch(:allow_writes?, false), query: query %>
     <% end %>
 
