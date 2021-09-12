@@ -8,7 +8,16 @@ module BarBack
 
     def error_for(column)
       return "" if model.nil?
-      errors&.messages_for(column)&.join(", ").to_s
+      (errors || [])
+        .messages_for(column)
+        .join(", ")
+    end
+
+    def errors_not_for(columns)
+      (errors || [])
+        .reject { |error| columns.include?(error.attribute.to_s) }
+        .map(&:full_message)
+        .join(", ")
     end
 
     def method_missing(sym, *args, &block)

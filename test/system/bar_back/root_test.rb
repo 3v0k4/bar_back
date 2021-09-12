@@ -493,5 +493,26 @@ module BarBack
 
       assert_text /If you want to update or delete single records/i
     end
+
+    test "it shows an error that is not on a selected field" do
+      user = create_user_with_uid!
+
+      visit root_path
+
+      fill_in "query_string", with: "UserWithUid.all"
+      fill_in "query_name", with: "all"
+      click_button "Save"
+
+      fill_in "name-#{user.id}", with: "trigger_base_error"
+      click_button "update-#{user.id}"
+
+      assert_text /base error message/i
+
+      click_link "Create Record"
+      fill_in "name-new", with: "trigger_base_error"
+      click_button "create"
+
+      assert_text /base error message/i
+    end
   end
 end

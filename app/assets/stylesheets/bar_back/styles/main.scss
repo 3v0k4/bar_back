@@ -369,6 +369,11 @@ input[type="text"], textarea {
   margin-top: $space-4;
 }
 
+.records__errors {
+  @include sans-serif;
+  color: $purple;
+}
+
 .records__row {
   display: flex;
   flex-direction: row;
