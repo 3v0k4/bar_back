@@ -32,7 +32,7 @@ module BarBack
       1
     end
 
-    def has_fields_to_update?
+    def updateable?
       false
     end
   end

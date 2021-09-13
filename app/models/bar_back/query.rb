@@ -27,7 +27,7 @@ module BarBack
       !uuid.nil?
     end
 
-    def has_fields_to_update?
+    def updateable?
       return false unless active_record_class.present?
       select_values = active_record? ? active_record_select_values : sql_select_values
       select_values.size.zero? ||

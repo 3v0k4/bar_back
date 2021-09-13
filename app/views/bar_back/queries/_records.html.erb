@@ -19,7 +19,7 @@
             <span><%= link_to "Delete", records_path(id_: row_with_columns.fetch(result.primary_key), query_id: query.id), id: "delete-#{row_with_columns.fetch(result.primary_key)}", data: { confirm: "Are you sure?" }, method: :delete, class: "result__delete" %></span>
           <% end %>
 
-          <% if result.has_fields_to_update? %>
+          <% if result.updateable? %>
             <span><%= form.submit "Update", id: "update-#{row_with_columns.fetch(result.primary_key)}", class: "result__update" %></span>
           <% end %>
         </div>
