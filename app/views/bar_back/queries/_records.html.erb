@@ -15,7 +15,10 @@
         <%= render 'bar_back/table', type: :update, columns: result.columns, row_with_columns: row_with_columns, result: result, form: form %>
 
         <div class="result__controls">
-          <span><%= link_to "Delete", records_path(id_: row_with_columns.fetch(result.primary_key), query_id: query.id), id: "delete-#{row_with_columns.fetch(result.primary_key)}", data: { confirm: "Are you sure?" }, method: :delete, class: "result__delete" %></span>
+          <% if result.primary_key.present? %>
+            <span><%= link_to "Delete", records_path(id_: row_with_columns.fetch(result.primary_key), query_id: query.id), id: "delete-#{row_with_columns.fetch(result.primary_key)}", data: { confirm: "Are you sure?" }, method: :delete, class: "result__delete" %></span>
+          <% end %>
+
           <% if result.has_fields_to_update? %>
             <span><%= form.submit "Update", id: "update-#{row_with_columns.fetch(result.primary_key)}", class: "result__update" %></span>
           <% end %>

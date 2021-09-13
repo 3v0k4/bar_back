@@ -503,8 +503,8 @@ module BarBack
       assert_text /base error message/i
     end
 
-    test "when primary_key is not selected both the update buttons and the create button are not shown and an explanation is displayed" do
-      create_user!
+    test "when primary_key is not selected the update buttons, the delete button and the create button are not shown and an explanation is displayed" do
+      user = create_user!
 
       visit root_path
 
@@ -514,11 +514,12 @@ module BarBack
 
       assert_text /If you want to update or delete single records/i
       assert_no_text "Create Record"
+      assert_no_css('a', text: 'Delete', id: "delete-#{user.id}")
       assert_no_css('button', text: 'Update')
     end
 
-    test "when only the primary_key is selected both the update buttons and create button are not shown" do
-      create_user!
+    test "when only the primary_key is selected both the update buttons and create button are not shown but the delete button is shown" do
+      user = create_user!
 
       visit root_path
 
@@ -527,6 +528,7 @@ module BarBack
       click_button "Save"
 
       assert_no_text "Create Record"
+      assert_css('a', text: 'Delete', id: "delete-#{user.id}")
       assert_no_css('button', text: 'Update')
     end
 
