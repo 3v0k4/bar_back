@@ -544,5 +544,17 @@ module BarBack
       assert_no_text /If you want to update or delete single records/i
       assert_text "Create Record"
     end
+
+    test "only the selected fields are available when creating a record" do
+      visit root_path
+
+      fill_in "query_string", with: "User.select(:id, :name)"
+      fill_in "query_name", with: "names"
+      click_button "Save"
+      click_link "Create Record"
+
+      assert_no_text "created_at"
+      assert_no_text "updated_at"
+    end
   end
 end
