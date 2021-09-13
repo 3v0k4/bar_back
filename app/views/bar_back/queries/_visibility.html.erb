@@ -3,7 +3,7 @@
   <%= form.label :visibility_private, "Private", class: "visibility-form__label #{query.public? ? "visibility-form__label--selected" : "visibility-form__label--not-selected"}" %>
   <%= form.radio_button :visibility, "public", class: "visibility-form__button", disabled: query.public? %>
   <%= form.label :visibility_public, "Public", class: "visibility-form__label #{query.public? ? "visibility-form__label--not-selected" : "visibility-form__label--selected"}" %>
-  <%= form.submit "Update", class: "hidden" %>
+  <%= form.submit "Update Visibility", class: "hidden" %>
 <% end %>
 
 <% if query.public? %>
