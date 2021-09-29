@@ -512,7 +512,7 @@ module BarBack
       fill_in "query_name", with: "names"
       click_button "Save"
 
-      assert_text /If you want to update or delete single records/i
+      assert_text /if you want to update, delete, or create records/i
       assert_no_text "Create Record"
       assert_no_css('a', text: 'Delete', id: "delete-#{user.id}")
       assert_no_css('button', text: 'Update')
