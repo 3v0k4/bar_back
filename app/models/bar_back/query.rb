@@ -31,13 +31,17 @@ module BarBack
       return false unless active_record_class.present?
       selects = active_record? ? active_record_select_values : sql_select_values
       selects.size.zero? ||
-        (selects.size >= 2 && selects.include?(active_record_class.primary_key))
+        (selects.size >= 2 && selects.include?(primary_key))
     end
 
     def select_values
       return [] unless active_record_class.present?
       active_record_select_values == [] ?
         active_record_class.column_names : active_record_select_values
+    end
+
+    def primary_key
+      active_record_class&.primary_key
     end
 
     private
