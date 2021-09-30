@@ -1,6 +1,6 @@
 # BarBack
 
-<p align="center"><img alt="BarBack logo: hanging wine glasses" src="./logo.svg" width=200px height=200px /></p>
+<p align="center"><img alt="BarBack logo: Martini glass with Bs on its side displayed as a neon sign" src="./logo.png" width=200px height=200px /></p>
 
 BarBack is the Rails console you can share with non technical people.
 
