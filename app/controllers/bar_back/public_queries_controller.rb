@@ -16,7 +16,7 @@ module BarBack
 
     def update
       method = { private: :private!, public: :public! }.stringify_keys[params.fetch(:visibility)]
-      query.send(method)
+      query.public_send(method)
       redirect_to query_records_path(query_id: query.id)
     end
 
