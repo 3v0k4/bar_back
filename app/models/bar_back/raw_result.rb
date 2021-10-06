@@ -1,39 +1,44 @@
 module BarBack
-  RawResult = Struct.new(:result) do
-    def valid?
-      true
-    end
-
-    def invalid?
-      !valid?
-    end
-
-    def columns
-      []
-    end
-
-    def rows
-      [[result.inspect]]
-    end
-
-    def rows_with_columns
-      [{ _column: result.inspect }]
+  class RawResult < Result
+    def initialize(result)
+      @result = result
     end
 
     def active_record_class
       nil
     end
 
+    def columns
+      []
+    end
+
+    def error_message
+      ""
+    end
+
     def primary_key
       ""
     end
 
-    def size
-      1
+    def rows_with_columns
+      [{ _column: result.inspect }]
     end
 
     def updateable?
       false
     end
+
+    def valid?
+      true
+    end
+
+    def ==(other)
+      self.class == other.class &&
+        self.result == other.send(:result)
+    end
+
+    private
+
+    attr_reader :result
   end
 end

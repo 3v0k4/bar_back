@@ -1,27 +1,35 @@
 module BarBack
-  NoQuery = Class.new do
-    def valid?
-      true
+  class NoQuery < Result
+    def active_record_class
+      nil
     end
 
-    def invalid?
-      !valid?
+    def columns
+      []
     end
 
     def error_message
       ""
     end
 
-    def rows
+    def primary_key
+      ""
+    end
+
+    def rows_with_columns
       []
     end
 
-    def active_record_class
-      nil
+    def updateable?
+      false
     end
 
-    def size
-      rows.size
+    def valid?
+      true
+    end
+
+    def ==(other)
+      self.class == other.class
     end
   end
 end

@@ -1,23 +1,24 @@
 module BarBack
-  ActiveRecordResult = Struct.new(:result, :query) do
-    def valid?
-      true
+  class ActiveRecordResult < Result
+    def initialize(result, query)
+      @result = result
+      @query = query
     end
 
-    def invalid?
-      !valid?
-    end
-
-    def error_message
-      ""
+    def active_record_class
+      query.active_record_class
     end
 
     def columns
       (rows_with_columns.first || {}).keys
     end
 
-    def rows
-      rows_with_columns.map(&:values)
+    def error_message
+      ""
+    end
+
+    def primary_key
+      active_record_class.primary_key
     end
 
     def rows_with_columns
@@ -30,20 +31,22 @@ module BarBack
         end
     end
 
-    def active_record_class
-      query.active_record_class
-    end
-
-    def primary_key
-      active_record_class.primary_key
-    end
-
-    def size
-      rows.size
-    end
-
     def updateable?
       query.updateable?
     end
+
+    def valid?
+      true
+    end
+
+    def ==(other)
+      self.class == other.class &&
+        self.result == other.send(:result) &&
+        self.query == other.send(:query)
+    end
+
+    private
+
+    attr_reader :result, :query
   end
 end

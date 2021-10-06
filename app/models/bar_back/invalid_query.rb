@@ -1,27 +1,44 @@
 module BarBack
-  InvalidQuery = Struct.new(:error) do
-    def valid?
-      false
+  class InvalidQuery < Result
+    def initialize(error)
+      @error = error
     end
 
-    def invalid?
-      !valid?
-    end
-
-    def error_message
-      error.message
-    end
-
-    def rows
-      []
+    def active_record_class
+      nil
     end
 
     def columns
       []
     end
 
-    def active_record_class
-      nil
+    def error_message
+      error.message
     end
+
+    def primary_key
+      ""
+    end
+
+    def rows_with_columns
+      []
+    end
+
+    def updateable?
+      false
+    end
+
+    def valid?
+      false
+    end
+
+    def ==(other)
+      self.class == other.class &&
+        self.error == other.send(:error)
+    end
+
+    private
+
+    attr_reader :error
   end
 end
