@@ -8,19 +8,19 @@ Gem::Specification.new do |spec|
   spec.homepage    = "https://github.com/3v0k4/bar_back"
   spec.summary     = "BarBack is the Rails console you can share with non technical people"
   spec.description = <<~DESCRIPTION
-    BackOffice enables you to:
+    BarBack is the Rails console you can share with non technical people. It's a Rails engine that enables you to (with HTTP basic authentication):
 
-    - execute an ActiveRecord read query;
-    - save an ActiveRecord read query for later;
-    - view the query result and update records behind HTTP basic authentication;
+    - execute an ActiveRecord or SQL read query;
+    - save an ActiveRecord or SQL read query for later;
+    - view the query result and update, create, or delete records;
     - share the query result with anybody via a link that contains a random UUID;
     - export the query result to CSV.
   DESCRIPTION
   spec.license     = "MIT"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/3v0k4/bar_back"
-  spec.metadata["changelog_uri"] = "https://github.com/3v0k4/bar_back/CHANGELOG.md"
+  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["changelog_uri"] = "#{spec.homepage}/CHANGELOG.md"
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
