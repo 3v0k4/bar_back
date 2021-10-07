@@ -18,11 +18,9 @@ module BarBack
     test "list of queries" do
       user = create_user!
       visit root_path
-
       fill_in "query_string", with: "User.all"
       fill_in "query_name", with: "user-all"
       click_button "Save"
-
       visit root_path
 
       assert_text "User.all"
@@ -43,10 +41,7 @@ module BarBack
       fill_in "query_name", with: "user-all"
       click_button "Save"
       visit root_path
-
-      accept_alert do
-        click_button "Delete"
-      end
+      accept_alert { click_button "Delete" }
 
       assert_text /save some queries to see them here/i
     end
@@ -64,11 +59,9 @@ module BarBack
       user_1 = create_user!
       user_2 = create_user!
       visit root_path
-
       fill_in "query_string", with: "User.all"
       fill_in "query_name", with: "user-all"
       click_button "Save"
-
       visit root_path
       click_link "user-all"
 
@@ -191,7 +184,6 @@ module BarBack
     test "csv" do
       user = create_user!
       visit root_path
-
       fill_in "query_string", with: "User.all"
       fill_in "query_name", with: "user-all"
       click_button "Save"
@@ -210,15 +202,10 @@ module BarBack
 
     test "deleting queries" do
       visit root_path
-
       fill_in "query_string", with: "User.all"
       fill_in "query_name", with: "user-all"
       click_button "Save"
-
-      accept_alert do
-        click_link "Delete"
-      end
-
+      accept_alert { click_link "Delete" }
       visit root_path
 
       assert_no_text "user-all"
@@ -226,9 +213,7 @@ module BarBack
 
     test "sharing" do
       user = create_user!
-
       visit root_path
-
       fill_in "query_string", with: "User.all"
       fill_in "query_name", with: "user-all"
       click_button "Save"
@@ -239,11 +224,7 @@ module BarBack
       EOF
 
       find("label", text: "Public").click
-
-      window = window_opened_by do
-        find('a', class: 'public-link__url').click
-      end
-
+      window = window_opened_by { find('a', class: 'public-link__url').click }
       within_window(window) do
         assert_text Query.last.name
         assert_text Query.last.string
@@ -257,7 +238,6 @@ module BarBack
         assert_text user.created_at
         assert_text "updated_at"
         assert_text user.updated_at
-
         click_link "Export CSV"
         sleep 1
 
@@ -268,10 +248,7 @@ module BarBack
         assert_equal expected, File.read("#{DOWNLOAD_PATH}/#{Query.last.name}.csv")
       end
 
-      window = window_opened_by do
-        click_link public_query_path(id: Query.last.id, uuid: Query.last.uuid)
-      end
-
+      window = window_opened_by { click_link public_query_path(id: Query.last.id, uuid: Query.last.uuid) }
       within_window(window) do
         assert_text Query.last.name
         assert_text Query.last.string
@@ -299,20 +276,16 @@ module BarBack
 
     test "update single record" do
       user = create_user!
-
       visit root_path
-
       fill_in "query_string", with: "User.all"
       fill_in "query_name", with: "user-all"
       click_button "Save"
-
       new_name = random_string
       fill_in "name-#{user.id}", with: new_name
       new_created_at = random_time
       fill_in "created_at-#{user.id}", with: new_created_at
       new_updated_at = random_time
       fill_in "updated_at-#{user.id}", with: new_updated_at
-
       click_button "update-#{user.id}"
 
       user = User.first
@@ -322,7 +295,6 @@ module BarBack
 
       fill_in "query_string", with: "SELECT * FROM users"
       click_button "Save"
-
       new_name = random_string
       fill_in "name-#{user.id}", with: new_name
       new_created_at = random_time
@@ -340,28 +312,19 @@ module BarBack
 
     test "delete single record" do
       user = create_user!
-
       visit root_path
-
       fill_in "query_string", with: "User.all"
       fill_in "query_name", with: "user-all"
       click_button "Save"
-
-      accept_alert do
-        click_link "delete-#{user.id}"
-      end
+      accept_alert { click_link "delete-#{user.id}" }
       sleep 1
 
       assert_equal 0, User.count
 
       user = create_user!
-
       fill_in "query_string", with: "SELECT * FROM users"
       click_button "Save"
-
-      accept_alert do
-        click_link "delete-#{user.id}"
-      end
+      accept_alert { click_link "delete-#{user.id}" }
       sleep 1
 
       assert_equal 0, User.count
@@ -369,13 +332,10 @@ module BarBack
 
     test "create single record" do
       visit root_path
-
       fill_in "query_string", with: "User.all"
       fill_in "query_name", with: "user-all"
       click_button "Save"
-
       click_link "Create Record"
-
       fill_in "name-new", with: random_string
       click_button "create"
 
@@ -383,9 +343,7 @@ module BarBack
 
       fill_in "query_string", with: "SELECT * FROM users"
       click_button "Save"
-
       click_link "Create Record"
-
       fill_in "name-new", with: random_string
       click_button "create"
 
@@ -394,15 +352,11 @@ module BarBack
 
     test "shows error on create and update" do
       user = create_user!
-
       visit root_path
-
       fill_in "query_string", with: "User.all"
       fill_in "query_name", with: "user-all"
       click_button "Save"
-
       click_link "Create Record"
-
       fill_in "name-new", with: "invalid"
       click_button "create"
 
@@ -411,7 +365,6 @@ module BarBack
       assert_xpath ".//input[@value='invalid']"
 
       click_link "Update Records"
-
       fill_in "name-#{user.id}", with: "invalid"
       click_button "update-#{user.id}"
 
@@ -421,7 +374,6 @@ module BarBack
 
     test 'with missing from' do
       visit root_path
-
       fill_in "query_string", with: "SELECT 123 ONE"
       fill_in "query_name", with: "select"
       click_button "Save"
@@ -432,7 +384,6 @@ module BarBack
 
     test 'with query error_messages' do
       visit root_path
-
       evaluate_script "document.getElementsByClassName('query-form__query-string')[0].required = false"
       evaluate_script "document.getElementsByClassName('query-form__query-name')[0].required = false"
       fill_in "query_string", with: ""
@@ -446,7 +397,6 @@ module BarBack
       fill_in "query_string", with: "SELECT 1"
       fill_in "query_name", with: "select"
       click_button "Save"
-
       evaluate_script "document.getElementsByClassName('query-form__query-string')[0].required = false"
       evaluate_script "document.getElementsByClassName('query-form__query-name')[0].required = false"
       fill_in "query_string", with: ""
@@ -460,9 +410,7 @@ module BarBack
 
     test "with custom primary_key" do
       user = create_user_with_uid!
-
       visit root_path
-
       fill_in "query_string", with: "UserWithUid.all"
       fill_in "query_name", with: "all"
       click_button "Save"
@@ -473,7 +421,6 @@ module BarBack
       assert_xpath ".//input[@value='#{user.updated_at}']"
 
       click_link "Create Record"
-
       fill_in "name-new", with: random_string
       fill_in "created_at-new", with: random_time
       fill_in "updated_at-new", with: random_time
@@ -484,13 +431,10 @@ module BarBack
 
     test "it shows an error that is not on a selected field" do
       user = create_user_with_uid!
-
       visit root_path
-
       fill_in "query_string", with: "UserWithUid.all"
       fill_in "query_name", with: "all"
       click_button "Save"
-
       fill_in "name-#{user.id}", with: "trigger_base_error"
       click_button "update-#{user.id}"
 
@@ -505,9 +449,7 @@ module BarBack
 
     test "when primary_key is not selected the update buttons, the delete button and the create button are not shown and an explanation is displayed" do
       user = create_user!
-
       visit root_path
-
       fill_in "query_string", with: "User.select(:name)"
       fill_in "query_name", with: "names"
       click_button "Save"
@@ -520,9 +462,7 @@ module BarBack
 
     test "when only the primary_key is selected both the update buttons and create button are not shown but the delete button is shown" do
       user = create_user!
-
       visit root_path
-
       fill_in "query_string", with: "User.select(:id)"
       fill_in "query_name", with: "names"
       click_button "Save"
@@ -534,9 +474,7 @@ module BarBack
 
     test "when primary_key is selected with an updatable field the create button is shown and the explanation not" do
       create_user!
-
       visit root_path
-
       fill_in "query_string", with: "User.select(:id, :name)"
       fill_in "query_name", with: "names"
       click_button "Save"
@@ -547,7 +485,6 @@ module BarBack
 
     test "only the selected fields are available when creating a record" do
       visit root_path
-
       fill_in "query_string", with: "User.select(:id, :name)"
       fill_in "query_name", with: "names"
       click_button "Save"
