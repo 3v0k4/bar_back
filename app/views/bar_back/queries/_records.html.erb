@@ -5,14 +5,14 @@
     <% end %>
 
     <% if local_assigns.fetch(:allow_writes?, false) && row_with_columns.key?(result.primary_key) && result.active_record_class.present? %>
-      <% if row_with_columns.fetch(result.primary_key) == @record.public_send(result.primary_key) && @record.errors_not_for(result.columns).present? %>
-        <span class="records__errors"><%= @record.errors_not_for(result.columns) %></span>
+      <% if row_with_columns.fetch(result.primary_key) == record.public_send(result.primary_key) && record.errors_not_for(result.columns).present? %>
+        <span class="records__errors"><%= record.errors_not_for(result.columns) %></span>
       <% end %>
 
       <%= form_with url: records_path(anchor: "update-#{row_with_columns.fetch(result.primary_key)}"), method: :put, id: "update-#{row_with_columns.fetch(result.primary_key)}" do |form| %>
         <%= form.hidden_field :id_, value: row_with_columns.fetch(result.primary_key)  %>
         <%= form.hidden_field :query_id, value: query.id %>
-        <%= render 'bar_back/table', type: :update, columns: result.columns, row_with_columns: row_with_columns, result: result, form: form %>
+        <%= render 'bar_back/table', type: :update, columns: result.columns, row_with_columns: row_with_columns, result: result, form: form, record: record %>
 
         <div class="result__controls">
           <% if result.primary_key.present? %>
@@ -26,7 +26,7 @@
       <% end %>
 
     <% else %>
-      <%= render 'bar_back/table', type: :read, columns: result.columns, row_with_columns: row_with_columns %>
+      <%= render 'bar_back/table', type: :read, columns: result.columns, row_with_columns: row_with_columns, record: record %>
     <% end %>
   <% end %>
 </div>

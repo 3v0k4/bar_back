@@ -1,11 +1,11 @@
 <div class="container saved-queries">
   <h2>Saved Queries</h2>
 
-  <% if @queries.size == 0 %>
+  <% if queries.size == 0 %>
     <p>Save some queries to see them here.</p>
   <% else %>
     <ul>
-      <% @queries.each_with_index do |query, i| %>
+      <% queries.each_with_index do |query, i| %>
         <% if i != 0 %>
           <%= render 'bar_back/divider' %>
         <% end %>

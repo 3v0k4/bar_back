@@ -1,9 +1,9 @@
-<% if @record.errors_not_for(result.columns).present? %>
-  <span class="records__errors"><%= @record.errors_not_for(result.columns) %></span>
+<% if record.errors_not_for(result.columns).present? %>
+  <span class="records__errors"><%= record.errors_not_for(result.columns) %></span>
 <% end %>
 
 <%= form_with url: records_path, method: :post do |form| %>
   <%= form.hidden_field :query_id, value: query.id %>
-  <%= render 'bar_back/table', type: :create, columns: @query.select_values - [@query.primary_key], form: form %>
+  <%= render 'bar_back/table', type: :create, columns: query.select_values - [query.primary_key], form: form, record: record %>
   <%= form.submit "Create", id: "create", class: "records__create" %>
 <% end %>

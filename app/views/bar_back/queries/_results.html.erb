@@ -63,11 +63,11 @@
     <% end %>
 
     <% if local_assigns.fetch(:for, :index) == :index && result.size.positive? %>
-      <%= render "bar_back/queries/records", result: result, allow_writes?: local_assigns.fetch(:allow_writes?, false), query: query %>
+      <%= render "bar_back/queries/records", record: record, result: result, allow_writes?: local_assigns.fetch(:allow_writes?, false), query: query %>
     <% end %>
 
     <% if local_assigns.fetch(:allow_writes?, false) && result.active_record_class.present? && local_assigns.fetch(:for, :index) == :new %>
-      <%= render 'bar_back/queries/create_record', query: query, result: result %>
+      <%= render 'bar_back/queries/create_record', query: query, result: result, record: record %>
     <% end %>
   </div>
 <% end %>
