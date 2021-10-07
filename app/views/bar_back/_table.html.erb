@@ -30,8 +30,10 @@
         <% else %>
           <% if row_with_columns.fetch(result.primary_key) == record.public_send(result.primary_key) && record.error_for(column).present? %>
             <span class="records__error"><%= record.error_for(column) %></span>
+            <%= form.text_field column, value: record.public_send(column), id: "#{column}-#{row_with_columns.fetch(result.primary_key)}", name: "record_params[#{column}]", class: "records__input records__input--error" %>
+          <% else %>
+            <%= form.text_field column, value: value, id: "#{column}-#{row_with_columns.fetch(result.primary_key)}", name: "record_params[#{column}]", class: "records__input" %>
           <% end %>
-          <%= form.text_field column, value: (row_with_columns.fetch(result.primary_key) == record.public_send(result.primary_key) && record.error_for(column).present?) ? record.public_send(column) : value, id: "#{column}-#{row_with_columns.fetch(result.primary_key)}", name: "record_params[#{column}]", class: "records__input #{(row_with_columns.fetch(result.primary_key) == record.public_send(result.primary_key) && record.error_for(column).present?) ? "records__input--error" : ""}" %>
         <% end %>
       <% end %>
     <% end %>
