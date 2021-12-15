@@ -34,7 +34,7 @@ module BarBack
 
     def ==(other)
       self.class == other.class &&
-        self.result == other.send(:result)
+        result == other.send(:result)
     end
 
     private

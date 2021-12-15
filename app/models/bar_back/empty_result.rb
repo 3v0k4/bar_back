@@ -34,7 +34,7 @@ module BarBack
 
     def ==(other)
       self.class == other.class &&
-        self.query == other.send(:query)
+        query == other.send(:query)
     end
 
     private
